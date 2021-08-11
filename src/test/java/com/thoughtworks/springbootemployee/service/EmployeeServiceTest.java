@@ -15,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -63,7 +64,7 @@ public class EmployeeServiceTest {
         employees.add(new Employee(1, "Francis", 24, "male", 99));
         employees.add(new Employee(2, "Eric", 22, "male", 99));
         employees.add(new Employee(2, "Sandy", 22, "female", 99));
-        given(employeeRepository.findByGender(FEMALE)).willReturn(employees);
+        when(employeeRepository.findByGender(FEMALE)).thenReturn(employees);
 
         //when
         List<Employee> actualEmployee = employeeService.getByGender(FEMALE);
@@ -84,7 +85,7 @@ public class EmployeeServiceTest {
         employees.add(new Employee(6, "Squidward", 22, "male", 99));
         employees.add(new Employee(7, "Pearl", 22, "male", 99));
         employees.remove(5);
-        given(employeeRepository.findByPageIndexAndPageSize(1,5)).willReturn(employees);
+        when(employeeRepository.findByPageIndexAndPageSize(1,5)).thenReturn(employees);
 
         //when
         List<Employee> actualEmployee = employeeService.getByPageIndexAndPageSize(1, 5);
@@ -94,15 +95,32 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void should_add_1_new_employee_when_add_employee_given_employee() {
+    public void should_return_new_employee_when_add_employee_given_employee() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
-        given(employeeRepository.addEmployee(employee)).willReturn(employee);
+        when(employeeRepository.addEmployee(employee)).thenReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.create(employee);
 
         //then
         assertEquals(employee, actualEmployee);
+    }
+
+    @Test
+    public void should_return_updated_employee_when_update_employee_given_employee_id_1_and_name_krabs() {
+        //given
+        Employee employee = new Employee(1, "Francis", 24, "male", 99);
+        employeeRepository.addEmployee(employee);
+
+        Employee updatedEmployee = new Employee(1, "Krabs", 24, "male", 99);
+
+        when(employeeRepository.updateEmployee(1, updatedEmployee)).thenReturn(updatedEmployee);
+
+        //when
+        Employee actualEmployee = employeeService.update(1, updatedEmployee);
+
+        //then
+        assertEquals("Krabs", actualEmployee.getName());
     }
 }

@@ -46,12 +46,7 @@ class EmployeesController {
 
     @PutMapping(path = "/{id}")
     public Employee updateEmployee(@PathVariable Integer id, @RequestBody Employee employeeToBeUpdated) {
-        return getEmployees()
-                .stream()
-                .filter(employee -> employee.getId().equals(id))
-                .findFirst()
-                .map(employee -> employeeService.updateEmployeeInfo(employee, employeeToBeUpdated))
-                .orElse(null);
+        return employeeService.update(id, employeeToBeUpdated);
     }
 
     @DeleteMapping("/{id}")

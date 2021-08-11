@@ -21,23 +21,6 @@ public class EmployeeService {
         return employeeRepository.getEmployees();
     }
 
-    public Employee updateEmployeeInfo(Employee employee, Employee employeeToBeUpdated) {
-        if (employeeToBeUpdated.getAge() != null) {
-            employee.setAge(employeeToBeUpdated.getAge());
-        }
-        if (employeeToBeUpdated.getName() != null) {
-            employee.setName(employeeToBeUpdated.getName());
-        }
-        if (employeeToBeUpdated.getGender() != null) {
-            employee.setGender(employeeToBeUpdated.getGender());
-        }
-        if (employeeToBeUpdated.getSalary() != null) {
-            employee.setSalary(employeeToBeUpdated.getSalary());
-        }
-
-        return employee;
-    }
-
     public Employee create(Employee employee) {
         return (employeeRepository.addEmployee(employee));
     }
@@ -53,5 +36,10 @@ public class EmployeeService {
     public List<Employee> getByPageIndexAndPageSize(Integer pageIndex, Integer pageSize) {
         return employeeRepository.findByPageIndexAndPageSize(pageIndex, pageSize);
     }
+
+    public Employee update(Integer id, Employee employeeToBeUpdated) {
+        return employeeRepository.updateEmployee(id, employeeToBeUpdated);
+    }
+
 
 }

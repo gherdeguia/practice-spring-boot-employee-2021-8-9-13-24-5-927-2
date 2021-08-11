@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.controller.EmployeesController;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -59,5 +60,26 @@ public class EmployeeRepository {
                 employee.getSalary()));
 
         return getEmployees().get(getEmployees().size()-1);
+    }
+
+    public Employee updateEmployee(Integer id, Employee employeeToBeUpdated) {
+        return updateEmployeeInfo(findById(id), employeeToBeUpdated);
+    }
+
+    public Employee updateEmployeeInfo(Employee employee, Employee employeeToBeUpdated) {
+        if (employeeToBeUpdated.getAge() != null) {
+            employee.setAge(employeeToBeUpdated.getAge());
+        }
+        if (employeeToBeUpdated.getName() != null) {
+            employee.setName(employeeToBeUpdated.getName());
+        }
+        if (employeeToBeUpdated.getGender() != null) {
+            employee.setGender(employeeToBeUpdated.getGender());
+        }
+        if (employeeToBeUpdated.getSalary() != null) {
+            employee.setSalary(employeeToBeUpdated.getSalary());
+        }
+
+        return employee;
     }
 }
