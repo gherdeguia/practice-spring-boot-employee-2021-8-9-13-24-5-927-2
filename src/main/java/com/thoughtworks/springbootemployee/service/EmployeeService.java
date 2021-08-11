@@ -47,4 +47,10 @@ public class EmployeeService {
                 employee.getGender(),
                 employee.getSalary()));
     }
+
+
+    public Employee getById(Integer id) {
+        return employeeRepository.findById(id);
+    }
+
 }
