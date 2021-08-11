@@ -9,10 +9,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
         employees.add(new Employee(6, "Squidward", 22, "male", 99));
         employees.add(new Employee(7, "Pearl", 22, "male", 99));
         employees.remove(5);
-        when(employeeRepository.findByPageIndexAndPageSize(1,5)).thenReturn(employees);
+        when(employeeRepository.findByPageIndexAndPageSize(1, 5)).thenReturn(employees);
 
         //when
         List<Employee> actualEmployee = employeeService.getByPageIndexAndPageSize(1, 5);
