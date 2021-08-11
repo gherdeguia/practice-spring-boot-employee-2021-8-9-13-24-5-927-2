@@ -1,7 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import repository.EmployeeRepository;
+import service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +13,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController {
+
     private final List<Employee> employees = new ArrayList<>();
 
-    public EmployeesController() {
-        employees.add(new Employee(1, "Francis", 24, "male", 99));
-        employees.add(new Employee(2, "Eric", 22, "male", 99));
-        employees.add(new Employee(3, "Jewel", 22, "female", 99));
-        employees.add(new Employee(4, "Francis", 24, "male", 99));
-        employees.add(new Employee(5, "Eric", 22, "male", 99));
-        employees.add(new Employee(6, "Jewel", 22, "female", 99));
+    @Autowired
+    private EmployeeService employeeService;
+
+    public EmployeesController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping
     public List<Employee> getEmployees() {
-        return employees;
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping(path = "/{id}")
@@ -53,5 +55,10 @@ public class EmployeesController {
                 employee.getSalary());
 
         employees.add(employeesToBeAdded);
+    }
+
+    @DeleteMapping
+    public void deleteEmployee(@RequestBody Employee employee){
+
     }
 }
