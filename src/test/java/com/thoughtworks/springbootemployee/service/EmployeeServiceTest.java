@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
-    public static final String FEMALE = "female";
+    public static final String MALE = "male";
     @InjectMocks
     private EmployeeService employeeService;
 
@@ -58,22 +57,6 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void should_return_all_female_employees_when_get_employee_by_gender_given_gender_is_female() {
-        //given
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Francis", 24, "male", 99));
-        employees.add(new Employee(2, "Eric", 22, "male", 99));
-        employees.add(new Employee(2, "Sandy", 22, "female", 99));
-        when(employeeRepository.findByGender(FEMALE)).thenReturn(employees);
-
-        //when
-        List<Employee> actualEmployee = employeeService.getByGender(FEMALE);
-
-        //then
-        assertEquals(employees, actualEmployee);
-    }
-
-    @Test
     public void should_return_first_5_employees_when_get_employees_by_pagination_given_page_index_1_and_page_size_5() {
         //given
         List<Employee> employees = new ArrayList<>();
@@ -89,6 +72,22 @@ public class EmployeeServiceTest {
 
         //when
         List<Employee> actualEmployee = employeeService.getByPageIndexAndPageSize(1, 5);
+
+        //then
+        assertEquals(employees, actualEmployee);
+    }
+
+    @Test
+    public void should_return_all_male_employees_when_get_employee_by_gender_given_gender_is_female() {
+        //given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "Francis", 24, "male", 99));
+        employees.add(new Employee(2, "Eric", 22, "male", 99));
+        employees.add(new Employee(2, "Sandy", 22, "female", 99));
+        when(employeeRepository.findByGender(MALE)).thenReturn(employees);
+
+        //when
+        List<Employee> actualEmployee = employeeService.getByGender(MALE);
 
         //then
         assertEquals(employees, actualEmployee);
@@ -122,5 +121,20 @@ public class EmployeeServiceTest {
 
         //then
         assertEquals("Krabs", actualEmployee.getName());
+    }
+
+    @Test
+    public void should_not_exist_employee_when_delete_employee_given_employee_id_1() {
+        //given
+        Employee employee = new Employee(1, "Francis", 24, "male", 99);
+        employeeRepository.addEmployee(employee);
+
+        when(employeeRepository.deleteEmployee(1)).thenReturn(true);
+
+        //when
+        employeeService.delete(1);
+
+        //then
+        assertNull(employeeService.getById(1));
     }
 }

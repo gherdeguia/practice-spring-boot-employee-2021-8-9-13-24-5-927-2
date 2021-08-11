@@ -42,4 +42,8 @@ public class EmployeeService {
     }
 
 
+    public boolean delete(Integer id) {
+        return employeeRepository.deleteEmployee(id);
+    }
+
 }

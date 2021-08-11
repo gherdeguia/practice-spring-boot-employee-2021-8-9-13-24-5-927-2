@@ -51,7 +51,7 @@ class EmployeesController {
 
     @DeleteMapping("/{id}")
     public boolean deleteEmployee(@PathVariable Integer id) {
-        return getEmployees()
-                .removeIf(employee -> employee.getId().equals(id));
+        return employeeService.delete(id);
     }
+
 }

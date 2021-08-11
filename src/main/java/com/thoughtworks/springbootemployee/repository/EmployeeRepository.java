@@ -82,4 +82,9 @@ public class EmployeeRepository {
 
         return employee;
     }
+
+    public boolean deleteEmployee(Integer id) {
+        return getEmployees()
+                .removeIf(employee -> employee.getId().equals(id));
+    }
 }
