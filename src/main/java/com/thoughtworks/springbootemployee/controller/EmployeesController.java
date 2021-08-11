@@ -30,7 +30,8 @@ class EmployeesController {
 
     @GetMapping(path = "/{id}")
     public Employee getEmployee(@PathVariable Integer id) {
-        return getEmployees().stream()
+        return getEmployees()
+                .stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
                 .orElse(null);
@@ -38,12 +39,16 @@ class EmployeesController {
 
     @RequestMapping(params = "gender")
     public List<Employee> getGender(@RequestParam String gender) {
-        return getEmployees().stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+        return getEmployees()
+                .stream()
+                .filter(employee -> employee.getGender().equals(gender))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
     public List<Employee> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
-        return getEmployees().stream()
+        return getEmployees()
+                .stream()
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize).collect(Collectors.toList());
     }
@@ -59,7 +64,7 @@ class EmployeesController {
 
     @PutMapping(path = "/{id}")
     public Employee updateEmployee(@PathVariable Integer id, @RequestBody Employee employeeToBeUpdated) {
-        return employees
+        return getEmployees()
                 .stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
