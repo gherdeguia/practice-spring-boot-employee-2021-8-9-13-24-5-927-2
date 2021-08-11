@@ -32,4 +32,8 @@ public class CompanyService {
         return companyRepository.findByPageIndexAndPageSize(pageIndex, pageSize);
 
     }
+
+    public Company create(Company company) {
+        return companyRepository.addCompany(company);
+    }
 }

@@ -71,4 +71,14 @@ public class CompanyRepository {
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize).collect(Collectors.toList());
     }
+
+    public Company addCompany(Company company) {
+        getCompanies().add(new Company(
+                getCompanies().size() + 1,
+                company.getCompanyName(),
+                company.getEmployeesNumber(),
+                company.getEmployees()));
+
+        return getCompanies().get(getCompanies().size() - 1);
+    }
 }

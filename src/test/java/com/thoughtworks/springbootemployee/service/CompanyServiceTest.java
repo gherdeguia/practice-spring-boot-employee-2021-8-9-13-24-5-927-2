@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,10 +81,23 @@ class CompanyServiceTest {
         when(companyRepository.findByPageIndexAndPageSize(1, 5)).thenReturn(companies);
 
         //when
-        List<Company> actualCompanies  = companyService.getByPageIndexAndPageSize(1, 5);
+        List<Company> actualCompanies = companyService.getByPageIndexAndPageSize(1, 5);
 
         //then
         assertEquals(companies, actualCompanies);
+    }
+
+    @Test
+    public void should_return_new_company_when_add_company_given_company() {
+        //given
+        Company company = companiesDataFactory().get(0);
+        when(companyRepository.addCompany(company)).thenReturn(company);
+
+        //when
+        Company actualCompany = companyService.create(company);
+
+        //then
+        assertEquals(company, actualCompany);
     }
 
     private List<Company> companiesDataFactory() {
