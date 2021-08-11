@@ -1,7 +1,5 @@
 package com.thoughtworks.springbootemployee.model;
 
-import com.thoughtworks.springbootemployee.model.Employee;
-
 import java.util.List;
 
 public class Company {
@@ -31,10 +29,6 @@ public class Company {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-
-    public Integer getEmployeesNumber() {
-        return employeesNumber;
     }
 
     public void setEmployeesNumber(Integer employeesNumber) {

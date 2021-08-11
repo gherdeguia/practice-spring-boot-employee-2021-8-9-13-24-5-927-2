@@ -53,5 +53,4 @@ class EmployeesController {
     public boolean deleteEmployee(@PathVariable Integer id) {
         return employeeService.delete(id);
     }
-
 }
