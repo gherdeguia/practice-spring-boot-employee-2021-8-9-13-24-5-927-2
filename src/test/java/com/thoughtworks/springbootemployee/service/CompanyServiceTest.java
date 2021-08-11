@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -118,6 +119,21 @@ class CompanyServiceTest {
 
         //then
         assertEquals("Krusty Krab", actualCompany.getCompanyName());
+    }
+
+    @Test
+    public void should_not_exist_company_with_id_1_when_delete_company_given_company_id_1() {
+        //given
+        Company company = companiesDataFactory().get(0);
+        companyRepository.addCompany(company);
+
+        when(companyRepository.deleteCompany(1)).thenReturn(true);
+
+        //when
+        companyService.delete(1);
+
+        //then
+        assertNull(companyService.getById(1));
     }
 
     private List<Company> companiesDataFactory() {

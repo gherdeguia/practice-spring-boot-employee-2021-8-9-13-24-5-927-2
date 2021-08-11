@@ -96,4 +96,9 @@ public class CompanyRepository {
 
         return company;
     }
+
+    public Boolean deleteCompany(int companyId) {
+        return getCompanies()
+                .removeIf(employee -> employee.getCompanyId().equals(companyId));
+    }
 }

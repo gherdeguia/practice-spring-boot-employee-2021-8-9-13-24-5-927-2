@@ -40,4 +40,8 @@ public class CompanyService {
     public Company update(int companyId, Company companyToBeUpdated) {
         return companyRepository.updateCompany(companyId, companyToBeUpdated);
     }
+
+    public boolean delete(int companyId) {
+        return companyRepository.deleteCompany(companyId);
+    }
 }
