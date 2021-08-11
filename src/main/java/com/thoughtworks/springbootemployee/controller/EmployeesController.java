@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 
@@ -55,11 +54,11 @@ class EmployeesController {
 
     @PostMapping
     public void addEmployee(@RequestBody Employee employee) {
-        Employee employeesToBeAdded = new Employee(employees.size() + 1,
+        Employee employeesToBeAdded = new Employee(getEmployees().size() + 1,
                 employee.getName(), employee.getAge(), employee.getGender(),
                 employee.getSalary());
 
-        employees.add(employeesToBeAdded);
+        getEmployees().add(employeesToBeAdded);
     }
 
     @PutMapping(path = "/{id}")
@@ -72,8 +71,9 @@ class EmployeesController {
                 .orElse(null);
     }
 
-    @DeleteMapping
-    public void deleteEmployee(@RequestBody Employee employee) {
-
+    @DeleteMapping("/{id}")
+    public boolean deleteEmployee(@PathVariable Integer id) {
+        return getEmployees()
+                .removeIf(employee -> employee.getId().equals(id));
     }
 }
