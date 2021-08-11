@@ -56,7 +56,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void should_return_all_male_employee_when_get_employee_given_gender_is_male() {
+    public void should_return_all_female_employee_when_get_employee_given_gender_is_male() {
         //given
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "Francis", 24, "male", 99));
