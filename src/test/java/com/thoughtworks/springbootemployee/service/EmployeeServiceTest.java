@@ -17,6 +17,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
+    public static final String FEMALE = "female";
     @InjectMocks
     private EmployeeService employeeService;
 
@@ -52,5 +53,21 @@ public class EmployeeServiceTest {
 
         //then
         assertEquals(employee, actualEmployee);
+    }
+
+    @Test
+    public void should_return_all_male_employee_when_get_employee_given_gender_is_male() {
+        //given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "Francis", 24, "male", 99));
+        employees.add(new Employee(2, "Eric", 22, "male", 99));
+        employees.add(new Employee(2, "Sandy", 22, "female", 99));
+        given(employeeRepository.findByGender(FEMALE)).willReturn(employees);
+
+        //when
+        List<Employee> actualEmployee = employeeService.getByGender(FEMALE);
+
+        //then
+        assertEquals(employees, actualEmployee);
     }
 }
