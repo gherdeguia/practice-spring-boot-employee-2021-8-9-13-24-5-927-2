@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,7 +57,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void should_return_all_female_employee_when_get_employee_given_gender_is_male() {
+    public void should_return_all_female_employees_when_get_employee_by_gender_given_gender_is_female() {
         //given
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "Francis", 24, "male", 99));
@@ -66,6 +67,27 @@ public class EmployeeServiceTest {
 
         //when
         List<Employee> actualEmployee = employeeService.getByGender(FEMALE);
+
+        //then
+        assertEquals(employees, actualEmployee);
+    }
+
+    @Test
+    public void should_return_first_5_employees_when_get_employees_by_pagination_given_page_index_1_and_page_size_5() {
+        //given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "Francis", 24, "male", 99));
+        employees.add(new Employee(2, "Eric", 22, "male", 99));
+        employees.add(new Employee(3, "Spongebob", 24, "male", 99));
+        employees.add(new Employee(4, "Patrick", 22, "male", 99));
+        employees.add(new Employee(5, "Gary", 24, "male", 99));
+        employees.add(new Employee(6, "Squidward", 22, "male", 99));
+        employees.add(new Employee(7, "Pearl", 22, "male", 99));
+        employees.remove(5);
+        given(employeeRepository.findByPageIndexAndPageSize(1,5)).willReturn(employees);
+
+        //when
+        List<Employee> actualEmployee = employeeService.getByPageIndexAndPageSize(1, 5);
 
         //then
         assertEquals(employees, actualEmployee);
