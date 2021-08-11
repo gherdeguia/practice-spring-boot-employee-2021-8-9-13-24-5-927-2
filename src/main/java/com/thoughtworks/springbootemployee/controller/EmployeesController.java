@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -37,10 +36,7 @@ class EmployeesController {
 
     @GetMapping(params = {"pageIndex", "pageSize"})
     public List<Employee> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
-        return getEmployees()
-                .stream()
-                .skip((long) (pageIndex - 1) * pageSize)
-                .limit(pageSize).collect(Collectors.toList());
+        return employeeService.getByPageIndexAndPageSize(pageIndex, pageSize);
     }
 
     @PostMapping

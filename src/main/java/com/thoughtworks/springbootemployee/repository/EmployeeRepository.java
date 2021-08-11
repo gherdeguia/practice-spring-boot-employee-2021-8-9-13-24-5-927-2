@@ -21,7 +21,7 @@ public class EmployeeRepository {
         employees.add(new Employee(4, "Patrick", 22, "male", 99));
         employees.add(new Employee(5, "Gary", 24, "male", 99));
         employees.add(new Employee(6, "Squidward", 22, "male", 99));
-        employees.add(new Employee(6, "Pearl", 22, "male", 99));
+        employees.add(new Employee(7, "Pearl", 22, "male", 99));
     }
 
     public List<Employee> getEmployees() {
@@ -41,5 +41,12 @@ public class EmployeeRepository {
                 .stream()
                 .filter(employee -> employee.getGender().equals(gender))
                 .collect(Collectors.toList());
+    }
+
+    public List<Employee> findByPageIndexAndPageSize(Integer pageIndex, Integer pageSize) {
+        return getEmployees()
+                .stream()
+                .skip((long) (pageIndex - 1) * pageSize)
+                .limit(pageSize).collect(Collectors.toList());
     }
 }
