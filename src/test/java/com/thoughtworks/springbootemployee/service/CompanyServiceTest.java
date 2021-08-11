@@ -69,6 +69,25 @@ class CompanyServiceTest {
         assertEquals(employees, actualEmployees);
     }
 
+    @Test
+    public void should_return_first_5_companies_when_get_companies_by_pagination_given_page_index_1_and_page_size_5() {
+        //given
+        List<Company> companies = new ArrayList<>();
+        companies.add(companiesDataFactory().get(0));
+        companies.add(companiesDataFactory().get(1));
+        companies.add(companiesDataFactory().get(0));
+        companies.add(companiesDataFactory().get(1));
+        companies.add(companiesDataFactory().get(0));
+        companies.add(companiesDataFactory().get(1));
+        when(companyRepository.findByPageIndexAndPageSize(1, 5)).thenReturn(companies);
+
+        //when
+        List<Company> actualCompanies  = companyService.getByPageIndexAndPageSize(1, 5);
+
+        //then
+        assertEquals(companies, actualCompanies);
+    }
+
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
         List<Employee> employees1 = new ArrayList<>();
