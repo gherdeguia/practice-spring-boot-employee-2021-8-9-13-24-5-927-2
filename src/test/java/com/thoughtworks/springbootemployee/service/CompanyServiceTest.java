@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +36,21 @@ class CompanyServiceTest {
         //then
         assertEquals(companies, actualCompanies);
 
+    }
+
+    @Test
+    public void should_return_company_when_get_company_given_company_id_1() {
+        //given
+        Company company = companiesDataFactory().get(0);
+        Integer companyId = company.getCompanyId();
+
+        given(companyRepository.findById(companyId)).willReturn(company);
+
+        //when
+        Company actualCompany = companyService.getById(companyId);
+
+        //then
+        assertEquals(company, actualCompany);
     }
 
     private List<Company> companiesDataFactory() {
