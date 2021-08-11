@@ -48,9 +48,12 @@ public class EmployeeService {
                 employee.getSalary()));
     }
 
-
     public Employee getById(Integer id) {
         return employeeRepository.findById(id);
+    }
+
+    public List<Employee> getByGender(String gender) {
+        return employeeRepository.findByGender(gender);
     }
 
 }
