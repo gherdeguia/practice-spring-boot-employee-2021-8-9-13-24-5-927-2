@@ -44,13 +44,29 @@ class CompanyServiceTest {
         Company company = companiesDataFactory().get(0);
         Integer companyId = company.getCompanyId();
 
-        given(companyRepository.findById(companyId)).willReturn(company);
+        when(companyRepository.findById(companyId)).thenReturn(company);
 
         //when
         Company actualCompany = companyService.getById(companyId);
 
         //then
         assertEquals(company, actualCompany);
+    }
+
+    @Test
+    public void should_return_company_employees_when_get_company_employees_given_company_id_1() {
+        //given
+        Company company = companiesDataFactory().get(0);
+        List<Employee> employees = company.getEmployees();
+        Integer companyId = company.getCompanyId();
+
+        when(companyRepository.findEmployeesById(companyId)).thenReturn(employees);
+
+        //when
+        List<Employee> actualEmployees = companyService.getEmployeesById(companyId);
+
+        //then
+        assertEquals(employees, actualEmployees);
     }
 
     private List<Company> companiesDataFactory() {

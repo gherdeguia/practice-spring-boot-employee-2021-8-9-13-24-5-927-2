@@ -50,4 +50,13 @@ public class CompanyRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public List<Employee> findEmployeesById(Integer companyId) {
+        return getCompanies()
+                .stream()
+                .filter(company -> company.getCompanyId().equals(companyId))
+                .findFirst()
+                .map(Company::getEmployees)
+                .orElse(null);
+    }
 }
