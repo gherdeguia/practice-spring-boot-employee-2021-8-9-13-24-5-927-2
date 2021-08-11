@@ -1,6 +1,6 @@
-package repository;
+package com.thoughtworks.springbootemployee.repository;
 
-import model.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class EmployeeRepository {
 
-    private List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
 
     public EmployeeRepository() {
         employees.add(new Employee(1, "Francis", 24, "male", 99));

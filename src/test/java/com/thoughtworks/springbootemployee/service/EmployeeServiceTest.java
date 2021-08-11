@@ -1,14 +1,13 @@
 package com.thoughtworks.springbootemployee.service;
 
-import model.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import repository.EmployeeRepository;
-import service.EmployeeService;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import model.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
-import repository.EmployeeRepository;
-import service.EmployeeService;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
-public class EmployeesController {
+class EmployeesController {
 
     private final List<Employee> employees = new ArrayList<>();
 
     @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeesController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -30,7 +30,7 @@ public class EmployeesController {
 
     @GetMapping(path = "/{id}")
     public Employee getEmployee(@PathVariable Integer id) {
-        return employees.stream()
+        return getEmployees().stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
                 .orElse(null);
@@ -38,7 +38,7 @@ public class EmployeesController {
 
     @RequestMapping(params = "gender")
     public List<Employee> getGender(@RequestParam String gender) {
-        return employees.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+        return getEmployees().stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
@@ -49,7 +49,7 @@ public class EmployeesController {
     }
 
     @PostMapping
-    public void addEmployee(@RequestBody Employee employee){
+    public void addEmployee(@RequestBody Employee employee) {
         Employee employeesToBeAdded = new Employee(employees.size() + 1,
                 employee.getName(), employee.getAge(), employee.getGender(),
                 employee.getSalary());
@@ -57,8 +57,18 @@ public class EmployeesController {
         employees.add(employeesToBeAdded);
     }
 
+    @PutMapping(path = "/{id}")
+    public Employee updateEmployee(@PathVariable Integer id, @RequestBody Employee employeeToBeUpdated) {
+        return employees
+                .stream()
+                .filter(employee -> employee.getId().equals(id))
+                .findFirst()
+                .map(employee -> employeeService.updateEmployeeInfo(employee, employeeToBeUpdated))
+                .orElse(null);
+    }
+
     @DeleteMapping
-    public void deleteEmployee(@RequestBody Employee employee){
+    public void deleteEmployee(@RequestBody Employee employee) {
 
     }
 }
