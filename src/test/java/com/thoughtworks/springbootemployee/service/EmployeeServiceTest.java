@@ -92,4 +92,17 @@ public class EmployeeServiceTest {
         //then
         assertEquals(employees, actualEmployee);
     }
+
+    @Test
+    public void should_add_1_new_employee_when_add_employee_given_employee() {
+        //given
+        Employee employee = new Employee(1, "Francis", 24, "male", 99);
+        given(employeeRepository.addEmployee(employee)).willReturn(employee);
+
+        //when
+        Employee actualEmployee = employeeService.create(employee);
+
+        //then
+        assertEquals(employee, actualEmployee);
+    }
 }

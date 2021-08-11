@@ -41,7 +41,7 @@ class EmployeesController {
 
     @PostMapping
     public void addEmployee(@RequestBody Employee employee) {
-        employeeService.create(employee, this);
+        employeeService.create(employee);
     }
 
     @PutMapping(path = "/{id}")

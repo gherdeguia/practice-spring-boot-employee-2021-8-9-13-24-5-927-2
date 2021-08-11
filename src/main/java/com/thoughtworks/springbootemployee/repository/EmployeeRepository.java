@@ -49,4 +49,15 @@ public class EmployeeRepository {
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize).collect(Collectors.toList());
     }
+
+    public Employee addEmployee(Employee employee) {
+        getEmployees().add(new Employee(
+                getEmployees().size() + 1,
+                employee.getName(),
+                employee.getAge(),
+                employee.getGender(),
+                employee.getSalary()));
+
+        return getEmployees().get(getEmployees().size()-1);
+    }
 }
