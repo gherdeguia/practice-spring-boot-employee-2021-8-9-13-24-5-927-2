@@ -5,15 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
+public
 class EmployeesController {
-
-    private final List<Employee> employees = new ArrayList<>();
 
     @Autowired
     private final EmployeeService employeeService;
@@ -54,11 +52,7 @@ class EmployeesController {
 
     @PostMapping
     public void addEmployee(@RequestBody Employee employee) {
-        Employee employeesToBeAdded = new Employee(getEmployees().size() + 1,
-                employee.getName(), employee.getAge(), employee.getGender(),
-                employee.getSalary());
-
-        getEmployees().add(employeesToBeAdded);
+        employeeService.create(employee, this);
     }
 
     @PutMapping(path = "/{id}")

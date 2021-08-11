@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.controller.EmployeesController;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,14 @@ public class EmployeeService {
         }
 
         return employee;
+    }
+
+    public void create(Employee employee, EmployeesController employeesController) {
+        employeesController.getEmployees().add(new Employee(
+                employeesController.getEmployees().size() + 1,
+                employee.getName(),
+                employee.getAge(),
+                employee.getGender(),
+                employee.getSalary()));
     }
 }
