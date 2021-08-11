@@ -124,7 +124,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void should_not_exist_employee_when_delete_employee_given_employee_id_1() {
+    public void should_not_exist_employee_with_id_1_when_delete_employee_given_employee_id_1() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
         employeeRepository.addEmployee(employee);
