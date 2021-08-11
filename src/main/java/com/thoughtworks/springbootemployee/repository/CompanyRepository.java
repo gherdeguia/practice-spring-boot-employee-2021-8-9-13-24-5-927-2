@@ -24,12 +24,12 @@ public class CompanyRepository {
         employees2.add(employeesDataFactory().get(4));
         employees2.add(employeesDataFactory().get(5));
 
-        companies.add(new Company(1, "Alibaba", 199, employees1));
-        companies.add(new Company(2, "Shoppee", 199, employees2));
-        companies.add(new Company(3, "Lazada", 199, employees1));
-        companies.add(new Company(4, "Zalora", 199, employees2));
-        companies.add(new Company(5, "Shein", 199, employees1));
-        companies.add(new Company(6, "Amazon", 199, employees2));
+        companies.add(new Company(1, "Alibaba", employees1));
+        companies.add(new Company(2, "Shoppee", employees2));
+        companies.add(new Company(3, "Lazada", employees1));
+        companies.add(new Company(4, "Zalora", employees2));
+        companies.add(new Company(5, "Shein", employees1));
+        companies.add(new Company(6, "Amazon", employees2));
     }
 
     private List<Employee> employeesDataFactory() {
@@ -76,9 +76,24 @@ public class CompanyRepository {
         getCompanies().add(new Company(
                 getCompanies().size() + 1,
                 company.getCompanyName(),
-                company.getEmployeesNumber(),
                 company.getEmployees()));
 
         return getCompanies().get(getCompanies().size() - 1);
+    }
+
+    public Company updateCompany(int companyId, Company companyToBeUpdated) {
+        return updateCompanyInfo(findById(companyId), companyToBeUpdated);
+    }
+
+    private Company updateCompanyInfo(Company company, Company companyToBeUpdated) {
+        if (companyToBeUpdated.getCompanyName() != null) {
+            company.setCompanyName(companyToBeUpdated.getCompanyName());
+        }
+        if (companyToBeUpdated.getEmployees() != null) {
+            company.setEmployees(companyToBeUpdated.getEmployees());
+            company.setEmployeesNumber(companyToBeUpdated.getEmployees().size());
+        }
+
+        return company;
     }
 }

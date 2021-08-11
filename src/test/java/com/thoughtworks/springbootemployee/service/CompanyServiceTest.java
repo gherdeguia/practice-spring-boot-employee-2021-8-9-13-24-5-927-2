@@ -100,6 +100,26 @@ class CompanyServiceTest {
         assertEquals(company, actualCompany);
     }
 
+    @Test
+    public void should_return_updated_company_when_update_company_given_company_id_1_and_company_name_krusty_krab() {
+        //given
+        Company company = companiesDataFactory().get(0);
+        companyRepository.addCompany(company);
+        List<Employee> employee = new ArrayList<>();
+        employee.add(employeesDataFactory().get(0));
+        employee.add(employeesDataFactory().get(1));
+        employee.add(employeesDataFactory().get(2));
+        Company updatedCompany = new Company(1, "Krusty Krab", employee);
+
+        when(companyRepository.updateCompany(1, updatedCompany)).thenReturn(updatedCompany);
+
+        //when
+        Company actualCompany = companyService.update(1, updatedCompany);
+
+        //then
+        assertEquals("Krusty Krab", actualCompany.getCompanyName());
+    }
+
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
         List<Employee> employees1 = new ArrayList<>();
@@ -113,8 +133,8 @@ class CompanyServiceTest {
         employees2.add(employeesDataFactory().get(4));
         employees2.add(employeesDataFactory().get(5));
 
-        companies.add(new Company(1, "Alibaba", 199, employees1));
-        companies.add(new Company(2, "Shoppee", 199, employees2));
+        companies.add(new Company(1, "Alibaba", employees1));
+        companies.add(new Company(2, "Shoppee", employees2));
 
         return companies;
     }

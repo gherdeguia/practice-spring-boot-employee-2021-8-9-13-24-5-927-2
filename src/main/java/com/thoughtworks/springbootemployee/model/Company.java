@@ -10,10 +10,10 @@ public class Company {
     Integer employeesNumber;
     List<Employee> employees;
 
-    public Company(Integer companyId, String companyName, Integer employeesNumber, List<Employee> employees) {
+    public Company(Integer companyId, String companyName, List<Employee> employees) {
         this.companyId = companyId;
         this.companyName = companyName;
-        this.employeesNumber = employeesNumber;
+        this.employeesNumber = employees.size();
         this.employees = employees;
     }
 
