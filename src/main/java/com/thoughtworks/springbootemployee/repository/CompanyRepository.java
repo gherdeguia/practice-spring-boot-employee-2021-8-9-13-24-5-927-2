@@ -26,6 +26,10 @@ public class CompanyRepository {
 
         companies.add(new Company(1, "Alibaba", 199, employees1));
         companies.add(new Company(2, "Shoppee", 199, employees2));
+        companies.add(new Company(1, "Lazada", 199, employees1));
+        companies.add(new Company(2, "Zalora", 199, employees2));
+        companies.add(new Company(1, "Shein", 199, employees1));
+        companies.add(new Company(2, "Amazon", 199, employees2));
     }
 
     private List<Employee> employeesDataFactory() {
