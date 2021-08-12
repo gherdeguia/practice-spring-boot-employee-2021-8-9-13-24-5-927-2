@@ -31,4 +31,6 @@ build/
 .vscode/
 
 ### gradle ###
-.gradle
+*.gradle
+
+*.yml
