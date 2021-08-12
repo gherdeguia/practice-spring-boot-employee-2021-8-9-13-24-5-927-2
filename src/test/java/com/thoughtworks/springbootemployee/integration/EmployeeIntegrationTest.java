@@ -4,6 +4,7 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +36,7 @@ public class EmployeeIntegrationTest {
     private CompanyRepository companyRepository;
 
     @BeforeEach
-    void setUp() {
+    void tearDown() {
         employeeRepository.deleteAll();
         companyRepository.deleteAll();
     }
@@ -115,26 +115,39 @@ public class EmployeeIntegrationTest {
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
         Company company = companiesDataFactory().get(0);
-        Integer companyId = companyRepository.save(company).getId();
-        employeeRepository.save(employeesDataFactory().get(0));
+        companyRepository.save(company);
+        Integer id = employeeRepository.save(employeesDataFactory().get(0)).getId();
 
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(companyId.toString()))
+                .andExpect(jsonPath("$[0].id").value(id.toString()))
                 .andExpect(jsonPath("$[0].name").value("Francis"))
                 .andExpect(jsonPath("$[0].age").value("24"))
                 .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value("99"))
-                .andExpect(jsonPath("$[0].companyId").value("1"));
+                .andExpect(jsonPath("$[0].salary").value("99"));
+    }
+
+    @Test
+    public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
+        //given
+        employeeRepository.save(employeesDataFactory().get(0));
+        employeeRepository.save(employeesDataFactory().get(1));
+        employeeRepository.save(employeesDataFactory().get(6));
+
+        //when
+        //then
+        mockMvc.perform(get("/employees?gender=male"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
     public void should_update_employee_when_call_update_employee_api_given_employee_id_and_updated_employee_request() throws Exception {
         // given
         Company company = companiesDataFactory().get(0);
-        Integer companyId = companyRepository.save(company).getId();
+        companyRepository.save(company);
         Employee employee = employeesDataFactory().get(3);
         Integer returnedEmployeeId = employeeRepository.save(employee).getId();
 
@@ -143,7 +156,7 @@ public class EmployeeIntegrationTest {
                 "    \"age\": 22,\n" +
                 "    \"gender\": \"female\",\n" +
                 "    \"salary\": 99,\n" +
-                "    \"companyId\": " + companyId + "\n" +
+                "    \"companyId\": " + 1 + "\n" +
                 "}";
 
         // when
@@ -158,7 +171,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value("22"))
                 .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.salary").value("99"))
-                .andExpect(jsonPath("$.companyId").value(companyId.toString()));
+                .andExpect(jsonPath("$.companyId").value("1"));
     }
 
     private List<Company> companiesDataFactory() {
@@ -182,12 +195,13 @@ public class EmployeeIntegrationTest {
 
     private List<Employee> employeesDataFactory() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Francis", 24, "male", 99, 1));
-        employees.add(new Employee(2, "Eric", 22, "male", 99, 1));
-        employees.add(new Employee(3, "Spongebob", 24, "male", 99, 1));
-        employees.add(new Employee(4, "Patrick", 22, "male", 99, 1));
-        employees.add(new Employee(5, "Gary", 24, "male", 99, 1));
-        employees.add(new Employee(6, "Squidward", 22, "male", 99, 1));
+        employees.add(new Employee(1, "Francis", 24, "male", 99 ));
+        employees.add(new Employee(2, "Eric", 22, "male", 99 ));
+        employees.add(new Employee(3, "Spongebob", 24, "male", 99));
+        employees.add(new Employee(4, "Patrick", 22, "male", 99));
+        employees.add(new Employee(5, "Gary", 24, "male", 99));
+        employees.add(new Employee(6, "Squidward", 22, "male", 99));
+        employees.add(new Employee(6, "Sandy", 22, "female", 99));
 
         return employees;
     }
