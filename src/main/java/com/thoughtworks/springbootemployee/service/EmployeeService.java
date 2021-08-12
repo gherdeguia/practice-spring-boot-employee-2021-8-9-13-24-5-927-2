@@ -44,7 +44,6 @@ public class EmployeeService {
         return retiringEmployeeRepository.updateEmployee(id, employeeToBeUpdated);
     }
 
-
     public boolean delete(Integer id) {
         return retiringEmployeeRepository.deleteEmployee(id);
     }

@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,9 @@ public class EmployeeServiceTest {
 
     @Mock
     private RetiringEmployeeRepository retiringEmployeeRepository;
+
+    @Mock
+    private EmployeeRepository employeeRepository;
 
     @Test
     public void should_return_all_employees_when_get_all_employees_given_all_employees() {
@@ -97,7 +101,7 @@ public class EmployeeServiceTest {
     public void should_return_new_employee_when_add_employee_given_employee() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
-        when(retiringEmployeeRepository.addEmployee(employee)).thenReturn(employee);
+        when(employeeRepository.save(employee)).thenReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.create(employee);
