@@ -49,6 +49,7 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Spongebob"))
                 .andExpect(jsonPath("$[0].age").value("14"))
                 .andExpect(jsonPath("$[0].gender").value("male"))
@@ -56,7 +57,32 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
-    public void should_create_employee_when_call_create_employee_api() throws Exception {
+    public void should_create_employee_when_call_create_employee_api_without_company_id() throws Exception {
+        // given
+        String employeeJson = "{\n" +
+                "    \"name\": \"Spongebob\",\n" +
+                "    \"age\": 24,\n" +
+                "    \"gender\": \"male\",\n" +
+                "    \"salary\": 999,\n" +
+                "    \"companyId\": null\n" +
+                "}";
+
+        // when
+        // then
+        mockMvc.perform(post("/employees")
+                .contentType(APPLICATION_JSON)
+                .content(employeeJson))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Spongebob"))
+                .andExpect(jsonPath("$.age").value("24"))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value("999"))
+                .andExpect(jsonPath("$.companyId").isEmpty());
+    }
+
+    @Test
+    public void should_create_employee_when_call_create_employee_api_with_company_id() throws Exception {
         // given
         Company company = companiesDataFactory().get(0);
         Integer companyId = companyRepository.save(company).getId();
@@ -82,6 +108,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.salary").value("999"))
                 .andExpect(jsonPath("$.companyId").value("1"));
     }
+
 
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
