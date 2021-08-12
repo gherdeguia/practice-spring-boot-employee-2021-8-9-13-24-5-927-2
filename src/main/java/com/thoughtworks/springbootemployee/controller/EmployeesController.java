@@ -27,12 +27,12 @@ class EmployeesController {
     }
 
     @GetMapping(path = "/{id}")
-    public Employee getEmployee(@PathVariable Integer id) {
+    public Employee getEmployeeById(@PathVariable Integer id) {
         return employeeService.getById(id);
     }
 
     @RequestMapping(params = "gender")
-    public List<Employee> getGender(@RequestParam String gender) {
+    public List<Employee> getEmployeesByGender(@RequestParam String gender) {
         return employeeService.getByGender(gender);
     }
 

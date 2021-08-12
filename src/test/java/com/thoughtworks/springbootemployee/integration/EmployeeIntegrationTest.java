@@ -114,19 +114,13 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
-        Company company = companiesDataFactory().get(0);
-        companyRepository.save(company);
-        Integer id = employeeRepository.save(employeesDataFactory().get(0)).getId();
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(id.toString()))
-                .andExpect(jsonPath("$[0].name").value("Francis"))
-                .andExpect(jsonPath("$[0].age").value("24"))
-                .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value("99"));
+        mockMvc.perform(get("/employees/1"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -172,6 +166,20 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.salary").value("99"))
                 .andExpect(jsonPath("$.companyId").value("1"));
+    }
+
+
+    @Test
+    public void should_return_5_employees_when_call_get_employees_api_by_pagination_given_page_index_1_and_page_size_5() throws Exception {
+        //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
+
+        //when
+        //then
+        mockMvc.perform(get("/employees?pageIndex=1&pageSize=5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(5));
     }
 
     private List<Company> companiesDataFactory() {

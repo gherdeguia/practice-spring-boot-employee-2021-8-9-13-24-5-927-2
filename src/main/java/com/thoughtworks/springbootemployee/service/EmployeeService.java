@@ -49,7 +49,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getByPageIndexAndPageSize(Integer pageIndex, Integer pageSize) {
-        return employeeRepository.findAll(PageRequest.of(pageIndex, pageSize)).toList();
+        return employeeRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).toList();
     }
 
     public Employee update(Integer id, Employee employeeToBeUpdated) {
