@@ -35,7 +35,7 @@ public class EmployeeServiceTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "Francis", 24, "male", 99));
         employees.add(new Employee(2, "Eric", 22, "male", 99));
-        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
+        given(employeeRepository.findAll()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getAllEmployees();
