@@ -50,8 +50,7 @@ public class EmployeeServiceTest {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
         Integer employeeId = employee.getId();
-
-        given(employeeRepository.getOne(employeeId)).willReturn(employee);
+        given(employeeRepository.findById(employeeId).get()).willReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.getById(employeeId);
