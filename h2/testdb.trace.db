@@ -1,0 +1,11 @@
+2021-08-12 13:48:14 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COMPANY" not found; SQL statement:
+CREATE TABLE employee(
+id int not null auto_increment primary key ,
+name   varchar(255) not null,
+age    int,
+salary int,
+gender varchar(255),
+company_id int,
+FOREIGN KEY (company_id) REFERENCES Company(id)
+) [42102-200]
