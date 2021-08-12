@@ -29,7 +29,7 @@ public class EmployeeService {
     }
 
     public Employee getById(Integer id) {
-        return retiringEmployeeRepository.findById(id);
+        return employeeRepository.findById(id).get();
     }
 
     public List<Employee> getByGender(String gender) {

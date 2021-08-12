@@ -51,7 +51,7 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
         Integer employeeId = employee.getId();
 
-        given(retiringEmployeeRepository.findById(employeeId)).willReturn(employee);
+        given(employeeRepository.getOne(employeeId)).willReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.getById(employeeId);

@@ -9,11 +9,11 @@ import javax.persistence.Id;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    private Integer age;
-    private String gender;
-    private Integer salary;
+    public Integer id;
+    public String name;
+    public Integer age;
+    public String gender;
+    public Integer salary;
 
     public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
         this.id = id;
@@ -60,5 +60,9 @@ public class Employee {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
