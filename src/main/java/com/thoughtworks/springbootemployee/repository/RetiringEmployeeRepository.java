@@ -13,13 +13,13 @@ public class RetiringEmployeeRepository {
     private final List<Employee> employees = new ArrayList<>();
 
     public RetiringEmployeeRepository() {
-        employees.add(new Employee(1, "Francis", 24, "male", 99));
-        employees.add(new Employee(2, "Eric", 22, "male", 99));
-        employees.add(new Employee(3, "Spongebob", 24, "male", 99));
-        employees.add(new Employee(4, "Patrick", 22, "male", 99));
-        employees.add(new Employee(5, "Gary", 24, "male", 99));
-        employees.add(new Employee(6, "Squidward", 22, "male", 99));
-        employees.add(new Employee(7, "Pearl", 22, "male", 99));
+        employees.add(new Employee(1, "Francis", 24, "male", 99, 1));
+        employees.add(new Employee(2, "Eric", 22, "male", 99, 1));
+        employees.add(new Employee(3, "Spongebob", 24, "male", 99, 1));
+        employees.add(new Employee(4, "Patrick", 22, "male", 99, 1));
+        employees.add(new Employee(5, "Gary", 24, "male", 99, 1));
+        employees.add(new Employee(6, "Squidward", 22, "male", 99, 1));
+        employees.add(new Employee(7, "Pearl", 22, "male", 99, 1));
     }
 
     public List<Employee> getEmployees() {
@@ -54,7 +54,8 @@ public class RetiringEmployeeRepository {
                 employee.getName(),
                 employee.getAge(),
                 employee.getGender(),
-                employee.getSalary()));
+                employee.getSalary(),
+                employee.getCompanyId()));
 
         return getEmployees().get(getEmployees().size() - 1);
     }

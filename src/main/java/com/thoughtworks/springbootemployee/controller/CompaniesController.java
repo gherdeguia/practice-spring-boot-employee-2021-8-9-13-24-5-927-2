@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/companies")
 public class CompaniesController {
@@ -40,6 +42,7 @@ public class CompaniesController {
     }
 
     @PostMapping
+    @ResponseStatus(CREATED)
     public void addCompany(@RequestBody Company company) {
         companyService.create(company);
     }

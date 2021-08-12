@@ -18,7 +18,6 @@ public class RetiringCompanyRepository {
         employees1.add(employeesDataFactory().get(1));
         employees1.add(employeesDataFactory().get(2));
 
-
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(employeesDataFactory().get(3));
         employees2.add(employeesDataFactory().get(4));
@@ -34,12 +33,12 @@ public class RetiringCompanyRepository {
 
     private List<Employee> employeesDataFactory() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Francis", 24, "male", 99));
-        employees.add(new Employee(2, "Eric", 22, "male", 99));
-        employees.add(new Employee(3, "Spongebob", 24, "male", 99));
-        employees.add(new Employee(4, "Patrick", 22, "male", 99));
-        employees.add(new Employee(5, "Gary", 24, "male", 99));
-        employees.add(new Employee(6, "Squidward", 22, "male", 99));
+        employees.add(new Employee(1, "Francis", 24, "male", 99, 1));
+        employees.add(new Employee(2, "Eric", 22, "male", 99, 1));
+        employees.add(new Employee(3, "Spongebob", 24, "male", 99, 1));
+        employees.add(new Employee(4, "Patrick", 22, "male", 99, 1));
+        employees.add(new Employee(5, "Gary", 24, "male", 99, 1));
+        employees.add(new Employee(6, "Squidward", 22, "male", 99, 1));
 
         return employees;
     }

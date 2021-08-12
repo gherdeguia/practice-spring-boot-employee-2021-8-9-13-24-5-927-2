@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/employees")
 public
@@ -40,6 +42,7 @@ class EmployeesController {
     }
 
     @PostMapping
+    @ResponseStatus(CREATED)
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.create(employee);
     }
