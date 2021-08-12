@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +23,7 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     @Mock
-    private EmployeeRepository employeeRepository;
+    private RetiringEmployeeRepository retiringEmployeeRepository;
 
     @Test
     public void should_return_all_employees_when_get_all_employees_given_all_employees() {
@@ -31,7 +31,7 @@ public class EmployeeServiceTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "Francis", 24, "male", 99));
         employees.add(new Employee(2, "Eric", 22, "male", 99));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getAllEmployees();
@@ -47,7 +47,7 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
         Integer employeeId = employee.getId();
 
-        given(employeeRepository.findById(employeeId)).willReturn(employee);
+        given(retiringEmployeeRepository.findById(employeeId)).willReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.getById(employeeId);
@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
         employees.add(new Employee(6, "Squidward", 22, "male", 99));
         employees.add(new Employee(7, "Pearl", 22, "male", 99));
         employees.remove(5);
-        when(employeeRepository.findByPageIndexAndPageSize(1, 5)).thenReturn(employees);
+        when(retiringEmployeeRepository.findByPageIndexAndPageSize(1, 5)).thenReturn(employees);
 
         //when
         List<Employee> actualEmployee = employeeService.getByPageIndexAndPageSize(1, 5);
@@ -84,7 +84,7 @@ public class EmployeeServiceTest {
         employees.add(new Employee(1, "Francis", 24, "male", 99));
         employees.add(new Employee(2, "Eric", 22, "male", 99));
         employees.add(new Employee(2, "Sandy", 22, "female", 99));
-        when(employeeRepository.findByGender(MALE)).thenReturn(employees);
+        when(retiringEmployeeRepository.findByGender(MALE)).thenReturn(employees);
 
         //when
         List<Employee> actualEmployee = employeeService.getByGender(MALE);
@@ -97,7 +97,7 @@ public class EmployeeServiceTest {
     public void should_return_new_employee_when_add_employee_given_employee() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
-        when(employeeRepository.addEmployee(employee)).thenReturn(employee);
+        when(retiringEmployeeRepository.addEmployee(employee)).thenReturn(employee);
 
         //when
         Employee actualEmployee = employeeService.create(employee);
@@ -110,11 +110,11 @@ public class EmployeeServiceTest {
     public void should_return_updated_employee_when_update_employee_given_employee_id_1_and_name_krabs() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
-        employeeRepository.addEmployee(employee);
+        retiringEmployeeRepository.addEmployee(employee);
 
         Employee updatedEmployee = new Employee(1, "Krabs", 24, "male", 99);
 
-        when(employeeRepository.updateEmployee(1, updatedEmployee)).thenReturn(updatedEmployee);
+        when(retiringEmployeeRepository.updateEmployee(1, updatedEmployee)).thenReturn(updatedEmployee);
 
         //when
         Employee actualEmployee = employeeService.update(1, updatedEmployee);
@@ -127,9 +127,9 @@ public class EmployeeServiceTest {
     public void should_not_exist_employee_with_id_1_when_delete_employee_given_employee_id_1() {
         //given
         Employee employee = new Employee(1, "Francis", 24, "male", 99);
-        employeeRepository.addEmployee(employee);
+        retiringEmployeeRepository.addEmployee(employee);
 
-        when(employeeRepository.deleteEmployee(1)).thenReturn(true);
+        when(retiringEmployeeRepository.deleteEmployee(1)).thenReturn(true);
 
         //when
         employeeService.delete(1);
