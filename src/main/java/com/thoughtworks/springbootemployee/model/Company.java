@@ -9,7 +9,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String companyName;
-    //Integer employeesNumber;
+    Integer employeesNumber;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
     List<Employee> employees;
@@ -17,8 +17,7 @@ public class Company {
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
-        // this.employeesNumber = employees.size();
-//        this.employees = employees;
+        this.employees = employees;
     }
 
     public Company() {

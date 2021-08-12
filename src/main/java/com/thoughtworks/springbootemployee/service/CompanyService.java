@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,12 @@ import java.util.List;
 public class CompanyService {
     @Autowired
     private final RetiringCompanyRepository retiringCompanyRepository;
+
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public CompanyService(RetiringCompanyRepository retiringCompanyRepository) {
         this.retiringCompanyRepository = retiringCompanyRepository;
@@ -28,8 +33,8 @@ public class CompanyService {
         return retiringCompanyRepository.findById(companyId);
     }
 
-    public List<Employee> getEmployeesById(Integer companyId) {
-        return companyRepository.findById(companyId).get().getEmployees();
+    public List<Employee> getCompanyEmployeesById(Integer companyId) {
+        return employeeRepository.findEmployeesByCompanyId(companyId);
     }
 
     public List<Company> getByPageIndexAndPageSize(Integer pageIndex, int pageSize) {

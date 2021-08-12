@@ -63,7 +63,7 @@
 //        when(companyRepository.findEmployeesById(companyId)).thenReturn(employees);
 //
 //        //when
-//        List<Employee> actualEmployees = companyService.getEmployeesById(companyId);
+//        List<Employee> actualEmployees = companyService.getCompanyEmployeesById(companyId);
 //
 //        //then
 //        assertEquals(employees, actualEmployees);
