@@ -21,7 +21,7 @@ public class CompanyService {
     }
 
     public List<Company> getAllCompanies() {
-        return retiringCompanyRepository.getCompanies();
+        return companyRepository.findAll();
     }
 
     public Company getById(Integer companyId) {
@@ -38,7 +38,7 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return retiringCompanyRepository.addCompany(company);
+        return companyRepository.save(company);
     }
 
     public Company update(int companyId, Company companyToBeUpdated) {

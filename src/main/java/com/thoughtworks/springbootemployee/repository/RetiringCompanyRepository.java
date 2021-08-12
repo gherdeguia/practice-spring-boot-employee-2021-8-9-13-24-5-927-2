@@ -51,7 +51,7 @@ public class RetiringCompanyRepository {
     public Company findById(Integer companyId) {
         return getCompanies()
                 .stream()
-                .filter(company -> company.getCompanyId().equals(companyId))
+                .filter(company -> company.getId().equals(companyId))
                 .findFirst()
                 .orElse(null);
     }
@@ -59,7 +59,7 @@ public class RetiringCompanyRepository {
     public List<Employee> findEmployeesById(Integer companyId) {
         return getCompanies()
                 .stream()
-                .filter(company -> company.getCompanyId().equals(companyId))
+                .filter(company -> company.getId().equals(companyId))
                 .findFirst()
                 .map(Company::getEmployees)
                 .orElse(null);
@@ -89,16 +89,16 @@ public class RetiringCompanyRepository {
         if (companyToBeUpdated.getCompanyName() != null) {
             company.setCompanyName(companyToBeUpdated.getCompanyName());
         }
-        if (companyToBeUpdated.getEmployees() != null) {
-            company.setEmployees(companyToBeUpdated.getEmployees());
-            company.setEmployeesNumber(companyToBeUpdated.getEmployees().size());
-        }
+//        if (companyToBeUpdated.getEmployees() != null) {
+//            company.setEmployees(companyToBeUpdated.getEmployees());
+      //      company.setEmployeesNumber(companyToBeUpdated.getEmployees().size());
+//        }
 
         return company;
     }
 
     public Boolean deleteCompany(int companyId) {
         return getCompanies()
-                .removeIf(employee -> employee.getCompanyId().equals(companyId));
+                .removeIf(employee -> employee.getId().equals(companyId));
     }
 }
