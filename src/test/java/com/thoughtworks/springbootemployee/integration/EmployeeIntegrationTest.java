@@ -59,6 +59,45 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
+    public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
+        //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
+
+        //when
+        //then
+        mockMvc.perform(get("/employees/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
+        //given
+        employeeRepository.save(employeesDataFactory().get(0));
+        employeeRepository.save(employeesDataFactory().get(1));
+        employeeRepository.save(employeesDataFactory().get(6));
+
+        //when
+        //then
+        mockMvc.perform(get("/employees?gender=male"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    public void should_return_5_employees_when_call_get_employees_api_by_pagination_given_page_index_1_and_page_size_5() throws Exception {
+        //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
+
+        //when
+        //then
+        mockMvc.perform(get("/employees?pageIndex=1&pageSize=5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(5));
+    }
+
+    @Test
     public void should_create_employee_when_call_create_employee_api_without_company_id() throws Exception {
         // given
         String employeeJson = "{\n" +
@@ -112,32 +151,6 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
-    public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
-        //given
-        List<Employee> employees = employeesDataFactory();
-        employeeRepository.saveAll(employees);
-
-        //when
-        //then
-        mockMvc.perform(get("/employees/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
-        //given
-        employeeRepository.save(employeesDataFactory().get(0));
-        employeeRepository.save(employeesDataFactory().get(1));
-        employeeRepository.save(employeesDataFactory().get(6));
-
-        //when
-        //then
-        mockMvc.perform(get("/employees?gender=male"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
-    }
-
-    @Test
     public void should_update_employee_when_call_update_employee_api_given_employee_id_and_updated_employee_request() throws Exception {
         // given
         Company company = companiesDataFactory().get(0);
@@ -168,18 +181,17 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.companyId").value("1"));
     }
 
-
     @Test
-    public void should_return_5_employees_when_call_get_employees_api_by_pagination_given_page_index_1_and_page_size_5() throws Exception {
-        //given
+    public void should_delete_employee_when_call_delete_api_given_employee_id() throws Exception {
+        // given
         List<Employee> employees = employeesDataFactory();
         employeeRepository.saveAll(employees);
+        Integer employeeIdToBeDeleted = employees.get(0).getId();
 
-        //when
-        //then
-        mockMvc.perform(get("/employees?pageIndex=1&pageSize=5"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(5));
+        // when
+        // then
+        mockMvc.perform(delete(format("/employees/%d", employeeIdToBeDeleted)))
+                .andExpect(status().isOk());
     }
 
     private List<Company> companiesDataFactory() {
