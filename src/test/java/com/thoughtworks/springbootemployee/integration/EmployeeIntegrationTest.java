@@ -109,6 +109,24 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.companyId").value("1"));
     }
 
+    @Test
+    public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
+        //given
+        Company company = companiesDataFactory().get(0);
+        Integer companyId = companyRepository.save(company).getId();
+        employeeRepository.save(employeesDataFactory().get(0));
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(companyId.toString()))
+                .andExpect(jsonPath("$[0].name").value("Francis"))
+                .andExpect(jsonPath("$[0].age").value("24"))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].salary").value("99"))
+                .andExpect(jsonPath("$[0].companyId").value("1"));
+    }
 
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
