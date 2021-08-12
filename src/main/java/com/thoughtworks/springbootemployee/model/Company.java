@@ -11,7 +11,6 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
     String companyName;
-    Integer employeesNumber;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
     List<Employee> employees;
