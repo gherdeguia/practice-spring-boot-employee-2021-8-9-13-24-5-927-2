@@ -15,8 +15,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -126,6 +128,37 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value("99"))
                 .andExpect(jsonPath("$[0].companyId").value("1"));
+    }
+
+    @Test
+    public void should_update_employee_when_call_update_employee_api_given_employee_id_and_updated_employee_request() throws Exception {
+        // given
+        Company company = companiesDataFactory().get(0);
+        Integer companyId = companyRepository.save(company).getId();
+        Employee employee = employeesDataFactory().get(3);
+        Integer returnedEmployeeId = employeeRepository.save(employee).getId();
+
+        String employeeJson = "{\n" +
+                "    \"name\": \"Patrick\",\n" +
+                "    \"age\": 22,\n" +
+                "    \"gender\": \"female\",\n" +
+                "    \"salary\": 99,\n" +
+                "    \"companyId\": " + companyId + "\n" +
+                "}";
+
+        // when
+        // then
+        mockMvc.perform(put(format("/employees/%d", returnedEmployeeId))
+                .contentType(APPLICATION_JSON)
+                .content(employeeJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.id").value(returnedEmployeeId))
+                .andExpect(jsonPath("$.name").value("Patrick"))
+                .andExpect(jsonPath("$.age").value("22"))
+                .andExpect(jsonPath("$.gender").value("female"))
+                .andExpect(jsonPath("$.salary").value("99"))
+                .andExpect(jsonPath("$.companyId").value(companyId.toString()));
     }
 
     private List<Company> companiesDataFactory() {
