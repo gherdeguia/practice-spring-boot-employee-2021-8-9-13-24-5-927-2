@@ -51,8 +51,8 @@ public class EmployeeService {
                 .orElseThrow(null);
     }
 
-    public boolean delete(Integer id) {
-        return retiringEmployeeRepository.deleteEmployee(id);
+    public void delete(Integer id) {
+        employeeRepository.delete(employeeRepository.findById(id).orElseThrow(null));
     }
 
 }
