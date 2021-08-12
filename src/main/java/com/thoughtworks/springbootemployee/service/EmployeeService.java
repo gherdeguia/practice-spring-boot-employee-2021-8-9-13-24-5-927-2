@@ -26,7 +26,7 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
-        return (employeeRepository.save(employee));
+        return employeeRepository.save(employee);
     }
 
     public Employee getById(Integer id) {
@@ -42,7 +42,13 @@ public class EmployeeService {
     }
 
     public Employee update(Integer id, Employee employeeToBeUpdated) {
-        return retiringEmployeeRepository.updateEmployee(id, employeeToBeUpdated);
+        return employeeRepository.findById(id)
+                .map(employee -> {
+                    employeeToBeUpdated.setId(id);
+
+                    return employeeRepository.save(employeeToBeUpdated);
+                })
+                .orElseThrow(null);
     }
 
     public boolean delete(Integer id) {
