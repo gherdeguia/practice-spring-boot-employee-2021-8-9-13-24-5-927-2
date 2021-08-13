@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -41,7 +42,7 @@ public class EmployeeService {
     }
 
     public Employee getById(Integer id) {
-        return employeeRepository.findById(id).orElseThrow(null);
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
     }
 
     public List<Employee> getByGender(String gender) {
