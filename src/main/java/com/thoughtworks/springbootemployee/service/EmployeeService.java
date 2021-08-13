@@ -57,10 +57,9 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employeeToBeUpdated.setId(id);
-
                     return employeeRepository.save(employeeToBeUpdated);
                 })
-                .orElseThrow(null);
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
     }
 
     public void delete(Integer id) {
