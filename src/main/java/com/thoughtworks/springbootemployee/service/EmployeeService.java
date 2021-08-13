@@ -35,14 +35,16 @@ public class EmployeeService {
         Integer companyId = employee.getCompanyId();
         if(nonNull(companyId)){
             companyRepository.findById(companyId)
-                    .orElseThrow(CompanyDoesNotExistException::new);
+                    .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."));
         }
 
         return employeeRepository.save(employee);
     }
 
     public Employee getById(Integer id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
+        return employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
     }
 
     public List<Employee> getByGender(String gender) {
