@@ -44,6 +44,11 @@ class EmployeesController {
         return employeeService.getEmployeesByPageService(pageIndex, pageSize);
     }
 
+    @GetMapping(params = {"page", "pageSize"})
+    public List<Employee> getEmployeesByPagination_alternate(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        return employeeService.getEmployeesByPageService(page, pageSize);
+    }
+
     @PostMapping
     @ResponseStatus(CREATED)
     public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {

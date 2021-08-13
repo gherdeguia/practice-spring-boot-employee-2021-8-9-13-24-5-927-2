@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
-import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
@@ -12,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/companies")
@@ -52,7 +49,7 @@ public class CompaniesController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Company addCompany(@RequestBody CompanyRequest companyRequest) {
-        return companyService.createCompany(companyMapper.toEntity(companyRequest));
+        return companyService.addNewCompanyService(companyMapper.toEntity(companyRequest));
     }
 
 

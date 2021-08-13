@@ -35,26 +35,23 @@ public class EmployeeIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-    @AfterEach
-    void tearDown() {
-        employeeRepository.deleteAll();
-    }
+//    @AfterEach
+//    void tearDown() {
+//        employeeRepository.deleteAll();
+//    }
 
     @Test
     void should_return_all_employees_when_call_get_employees_api() throws Exception {
         //given
-        final Employee employee = new Employee("Spongebob", 14, "male", 99);
-        employeeRepository.save(employee);
-
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
-                .andExpect(jsonPath("$[0].name").value("Spongebob"))
-                .andExpect(jsonPath("$[0].age").value("14"))
+                .andExpect(jsonPath("$[0].name").value("Francis"))
+                .andExpect(jsonPath("$[0].age").value(24))
                 .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value("99"));
+                .andExpect(jsonPath("$[0].salary").value(99));
     }
 
     @Test
@@ -72,33 +69,34 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
         //given
-        employeeRepository.saveAll(Lists.list(employeesDataFactory().get(0), employeesDataFactory().get(1),
-                employeesDataFactory().get(6)));
-
         //when
         //then
-        mockMvc.perform(get("/employees?gender=male"))
+        mockMvc.perform(get("/employees?gender=female"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.length()").value(3));
     }
 
     @Test
     public void should_return_employees_when_call_get_employees_api_by_pagination_given_page_index_and_page_size() throws Exception {
         //given
-        employeeRepository.saveAll(Lists.list(employeesDataFactory().get(0), employeesDataFactory().get(1)));
-
         //when
         //then
-        mockMvc.perform(get("/employees?pageIndex=1&pageSize=1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees")
+                .param("pageIndex", String.valueOf(3))
+                .param("pageSize", String.valueOf(3))
+        )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$[0].name").value("Eric"))
+                .andExpect(jsonPath("$[1].name").value("Spongebob"))
+                .andExpect(jsonPath("$[2].name").value("Patrick"))
+        ;
     }
 
     @Test
     public void should_create_employee_when_call_create_employee_api_without_company_id() throws Exception {
         // given
         String employeeJson = "{\n" +
-                "    \"name\": \"Spongebob\",\n" +
+                "    \"name\": \"Extra Characters\",\n" +
                 "    \"age\": 24,\n" +
                 "    \"gender\": \"male\",\n" +
                 "    \"salary\": 999\n" +
@@ -111,7 +109,7 @@ public class EmployeeIntegrationTest {
                 .content(employeeJson))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Spongebob"))
+                .andExpect(jsonPath("$.name").value("Extra Characters"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andExpect(jsonPath("$.salary").value("999"));
@@ -122,7 +120,7 @@ public class EmployeeIntegrationTest {
         // given
         Integer companyId = companyRepository.save(companiesDataFactory().get(0)).getId();
         String employeeJson = "{\n" +
-                "    \"name\": \"Spongebob\",\n" +
+                "    \"name\": \"Alfonse Elric\",\n" +
                 "    \"age\": 24,\n" +
                 "    \"gender\": \"male\",\n" +
                 "    \"salary\": 999,\n" +
@@ -149,7 +147,7 @@ public class EmployeeIntegrationTest {
         Integer returnedEmployeeId = employeeRepository.save(employee).getId();
 
         String employeeJson = "{\n" +
-                "    \"name\": \"Patrick\",\n" +
+                "    \"name\": \"Patrick Starro\",\n" +
                 "    \"age\": 22,\n" +
                 "    \"gender\": \"female\",\n" +
                 "    \"salary\": 99\n" +

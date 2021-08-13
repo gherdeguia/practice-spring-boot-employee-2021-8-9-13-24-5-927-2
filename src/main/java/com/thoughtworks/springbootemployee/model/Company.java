@@ -43,15 +43,8 @@ public class Company {
         this.companyName = companyName;
     }
 
-//    public void setEmployeesNumber(Integer employeesNumber) {
-//        this.employeesNumber = employeesNumber;
-//    }
-
     public List<Employee> getEmployees() {
         return employees;
     }
 
-//    public void setEmployees(List<Employee> employees) {
-//        this.employees = employees;
-//    }
 }

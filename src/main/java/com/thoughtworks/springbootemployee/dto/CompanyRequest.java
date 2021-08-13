@@ -2,7 +2,8 @@ package com.thoughtworks.springbootemployee.dto;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 
@@ -10,6 +11,7 @@ public class CompanyRequest {
 
     Integer id;
     String companyName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
     List<Employee> employees;
 
     public CompanyRequest(Integer id, String companyName, List<Employee> employees) {
@@ -36,6 +38,10 @@ public class CompanyRequest {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -44,9 +50,11 @@ public class CompanyRequest {
         this.companyName = companyName;
     }
 
-
     public List<Employee> getEmployees() {
         return employees;
     }
 
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
