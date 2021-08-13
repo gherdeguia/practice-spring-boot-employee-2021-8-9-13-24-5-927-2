@@ -1,9 +1,9 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.dto;
 
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 
-public class EmployeeResponse {
+public class EmployeeRequest {
 
     public String name;
     public Integer age;
@@ -13,15 +13,27 @@ public class EmployeeResponse {
     @JoinColumn(insertable = false, updatable = false)
     public Integer companyId;
 
-    public EmployeeResponse() {
+    public EmployeeRequest() {
     }
 
-    public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+    public EmployeeRequest(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyId;
+    }
+
+    public EmployeeRequest(Integer id, String name, Integer age, String gender, Integer salary) {
+        this(id, name, age, gender, salary, null);
+    }
+
+    public EmployeeRequest(String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this(null, name, age, gender, salary, companyId);
+    }
+
+    public EmployeeRequest(String name, Integer age, String gender, Integer salary) {
+        this(name, age, gender, salary, null);
     }
 
     public String getName() {

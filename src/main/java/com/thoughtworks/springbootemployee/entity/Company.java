@@ -1,9 +1,7 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.entity;
 
 import javax.persistence.*;
 import java.util.List;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Company {
@@ -11,12 +9,16 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
     String companyName;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
     List<Employee> employees;
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
+        this.companyName = companyName;
+        this.employees = employees;
+    }
+
+    public Company(String companyName, List<Employee> employees) {
         this.companyName = companyName;
         this.employees = employees;
     }

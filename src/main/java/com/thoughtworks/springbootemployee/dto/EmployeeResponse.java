@@ -1,12 +1,10 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.dto;
 
-import javax.persistence.*;
+import javax.persistence.JoinColumn;
 
-@Entity
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+
+public class EmployeeResponse {
+
     public String name;
     public Integer age;
     public String gender;
@@ -15,32 +13,15 @@ public class Employee {
     @JoinColumn(insertable = false, updatable = false)
     public Integer companyId;
 
-    public Employee() {
+    public EmployeeResponse() {
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
-        this.id = id;
+    public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyId;
-    }
-
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
-        this(id, name, age, gender, salary, null);
-    }
-
-    public Employee(String name, Integer age, String gender, Integer salary, Integer companyId) {
-        this(null, name, age, gender, salary, companyId);
-    }
-
-    public Employee(String name, Integer age, String gender, Integer salary) {
-        this(name, age, gender, salary, null);
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {
@@ -73,10 +54,6 @@ public class Employee {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getCompanyId() {

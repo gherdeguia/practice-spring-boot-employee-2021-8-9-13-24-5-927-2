@@ -1,12 +1,13 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
-import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.entity.Company;
+import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     @Autowired
-    private final RetiringCompanyRepository retiringCompanyRepository;
+    private RetiringCompanyRepository retiringCompanyRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -22,8 +23,8 @@ public class CompanyService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public CompanyService(RetiringCompanyRepository retiringCompanyRepository) {
-        this.retiringCompanyRepository = retiringCompanyRepository;
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 
     public List<Company> getAllCompanies() {
@@ -41,16 +42,15 @@ public class CompanyService {
     }
 
     public List<Company> getByPageIndexAndPageSize(Integer pageIndex, int pageSize) {
-        return retiringCompanyRepository.findByPageIndexAndPageSize(pageIndex, pageSize);
+        return companyRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).toList();
 
     }
 
-    public Company create(Company company) {
+    public Company createCompany(Company company) {
         return companyRepository.save(company);
     }
 
     public Company update(int companyId, Company companyToBeUpdated) {
-//        return retiringCompanyRepository.updateCompany(companyId, companyToBeUpdated);
         return companyRepository.save(updateCompanyInfo(getById(companyId),companyToBeUpdated));
     }
 
@@ -60,7 +60,9 @@ public class CompanyService {
         }
         return company;
     }
-    public boolean delete(int companyId) {
-        return retiringCompanyRepository.deleteCompany(companyId);
+    public void delete(int companyId) {
+        companyRepository
+                .delete(companyRepository.findById(companyId)
+                        .orElseThrow(null));
     }
 }

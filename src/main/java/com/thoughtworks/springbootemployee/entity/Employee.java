@@ -1,10 +1,12 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.entity;
 
 import javax.persistence.*;
 
-
-public class EmployeeRequest {
-
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer id;
     public String name;
     public Integer age;
     public String gender;
@@ -13,10 +15,11 @@ public class EmployeeRequest {
     @JoinColumn(insertable = false, updatable = false)
     public Integer companyId;
 
-    public EmployeeRequest() {
+    public Employee() {
     }
 
-    public EmployeeRequest(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -24,16 +27,20 @@ public class EmployeeRequest {
         this.companyId = companyId;
     }
 
-    public EmployeeRequest(Integer id, String name, Integer age, String gender, Integer salary) {
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
         this(id, name, age, gender, salary, null);
     }
 
-    public EmployeeRequest(String name, Integer age, String gender, Integer salary, Integer companyId) {
+    public Employee(String name, Integer age, String gender, Integer salary, Integer companyId) {
         this(null, name, age, gender, salary, companyId);
     }
 
-    public EmployeeRequest(String name, Integer age, String gender, Integer salary) {
+    public Employee(String name, Integer age, String gender, Integer salary) {
         this(name, age, gender, salary, null);
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
@@ -66,6 +73,10 @@ public class EmployeeRequest {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getCompanyId() {
