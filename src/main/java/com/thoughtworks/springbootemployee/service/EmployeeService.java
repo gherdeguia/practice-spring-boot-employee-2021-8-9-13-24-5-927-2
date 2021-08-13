@@ -25,35 +25,37 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployeesService() {
         return employeeRepository.findAll();
     }
 
-    public Employee create(Employee employee) {
-        Integer companyId = employee.getCompanyId();
-        if(nonNull(companyId)){
-            companyRepository.findById(companyId)
-                    .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."));
-        }
-
-        return employeeRepository.save(employee);
-    }
-
-    public Employee getById(Integer id) {
+    public Employee findByEmployeeIDService(Integer id) {
         return employeeRepository
                 .findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
     }
 
-    public List<Employee> getByGender(String gender) {
+    public List<Employee> getEmployeeByGenderService(String gender) {
         return employeeRepository.findEmployeeByGender(gender);
     }
 
-    public List<Employee> getByPageIndexAndPageSize(Integer pageIndex, Integer pageSize) {
-        return employeeRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).toList();
+    public Employee addNewEmployeeService(Employee employee) {
+        Integer companyId = employee.getCompanyId();
+        if(nonNull(companyId)){
+            companyRepository
+                    .findById(companyId)
+                    .orElseThrow(
+                            () -> new EmployeeNotFoundException("Company ID not found.")
+                    );
+        }
+        return employeeRepository.save(employee);
     }
 
-    public Employee update(Integer id, Employee employeeToBeUpdated) {
+    public List<Employee> getEmployeesByPageService(Integer pageIndex, Integer pageSize) {
+        return employeeRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).getContent();
+    }
+
+    public Employee updateEmployeeService(Integer id, Employee employeeToBeUpdated) {
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employeeToBeUpdated.setId(id);
@@ -62,8 +64,10 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException(id.toString()));
     }
 
-    public void delete(Integer id) {
-        employeeRepository.delete(employeeRepository.findById(id).orElseThrow(null));
+    public void deleteEmployeeService(Integer id) {
+        employeeRepository.delete(
+                employeeRepository.findById(id).orElseThrow(null)
+        );
     }
 
 }

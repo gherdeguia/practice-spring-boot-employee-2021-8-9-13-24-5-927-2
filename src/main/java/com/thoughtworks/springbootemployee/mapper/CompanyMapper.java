@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.mapper;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
+
 import com.thoughtworks.springbootemployee.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -14,5 +16,12 @@ public class CompanyMapper {
         companyResponse.setEmployeeNumber(company.getEmployees().size());
 
         return companyResponse;
+    }
+
+    public Company toEntity(CompanyRequest companyRequest){
+        Company company = new Company();
+        BeanUtils.copyProperties(companyRequest, company);
+
+        return company;
     }
 }

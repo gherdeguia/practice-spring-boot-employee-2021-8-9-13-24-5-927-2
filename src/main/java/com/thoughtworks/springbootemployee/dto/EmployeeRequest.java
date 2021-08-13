@@ -1,7 +1,5 @@
 package com.thoughtworks.springbootemployee.dto;
 
-import javax.persistence.*;
-
 
 public class EmployeeRequest {
 
@@ -9,8 +7,6 @@ public class EmployeeRequest {
     public Integer age;
     public String gender;
     public Integer salary;
-
-    @JoinColumn(insertable = false, updatable = false)
     public Integer companyId;
 
     public EmployeeRequest() {
