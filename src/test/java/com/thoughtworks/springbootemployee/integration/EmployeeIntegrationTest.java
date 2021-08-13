@@ -4,8 +4,8 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,10 +35,9 @@ public class EmployeeIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-    @BeforeEach
+    @AfterEach
     void tearDown() {
         employeeRepository.deleteAll();
-        companyRepository.deleteAll();
     }
 
     @Test
@@ -62,20 +61,19 @@ public class EmployeeIntegrationTest {
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
         List<Employee> employees = employeesDataFactory();
-        employeeRepository.saveAll(employees);
+        Integer employeeId = employeeRepository.saveAll(employees).get(0).getId();
 
         //when
         //then
-        mockMvc.perform(get("/employees/1"))
+        mockMvc.perform(get("/employees/{employeeId}", employeeId))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
         //given
-        employeeRepository.save(employeesDataFactory().get(0));
-        employeeRepository.save(employeesDataFactory().get(1));
-        employeeRepository.save(employeesDataFactory().get(6));
+        employeeRepository.saveAll(Lists.list(employeesDataFactory().get(0), employeesDataFactory().get(1),
+                employeesDataFactory().get(6)));
 
         //when
         //then
@@ -85,16 +83,15 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
-    public void should_return_5_employees_when_call_get_employees_api_by_pagination_given_page_index_1_and_page_size_5() throws Exception {
+    public void should_return_employees_when_call_get_employees_api_by_pagination_given_page_index_and_page_size() throws Exception {
         //given
-        List<Employee> employees = employeesDataFactory();
-        employeeRepository.saveAll(employees);
+        employeeRepository.saveAll(Lists.list(employeesDataFactory().get(0), employeesDataFactory().get(1)));
 
         //when
         //then
-        mockMvc.perform(get("/employees?pageIndex=1&pageSize=5"))
+        mockMvc.perform(get("/employees?pageIndex=1&pageSize=1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(5));
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
@@ -104,8 +101,7 @@ public class EmployeeIntegrationTest {
                 "    \"name\": \"Spongebob\",\n" +
                 "    \"age\": 24,\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"salary\": 999,\n" +
-                "    \"companyId\": null\n" +
+                "    \"salary\": 999\n" +
                 "}";
 
         // when
@@ -118,16 +114,13 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.name").value("Spongebob"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
-                .andExpect(jsonPath("$.salary").value("999"))
-                .andExpect(jsonPath("$.companyId").isEmpty());
+                .andExpect(jsonPath("$.salary").value("999"));
     }
 
     @Test
     public void should_create_employee_when_call_create_employee_api_with_company_id() throws Exception {
         // given
-        Company company = companiesDataFactory().get(0);
-        Integer companyId = companyRepository.save(company).getId();
-
+        Integer companyId = companyRepository.save(companiesDataFactory().get(0)).getId();
         String employeeJson = "{\n" +
                 "    \"name\": \"Spongebob\",\n" +
                 "    \"age\": 24,\n" +
@@ -146,15 +139,12 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.name").value("Spongebob"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
-                .andExpect(jsonPath("$.salary").value("999"))
-                .andExpect(jsonPath("$.companyId").value("1"));
+                .andExpect(jsonPath("$.salary").value("999"));
     }
 
     @Test
     public void should_update_employee_when_call_update_employee_api_given_employee_id_and_updated_employee_request() throws Exception {
         // given
-        Company company = companiesDataFactory().get(0);
-        companyRepository.save(company);
         Employee employee = employeesDataFactory().get(3);
         Integer returnedEmployeeId = employeeRepository.save(employee).getId();
 
@@ -162,8 +152,7 @@ public class EmployeeIntegrationTest {
                 "    \"name\": \"Patrick\",\n" +
                 "    \"age\": 22,\n" +
                 "    \"gender\": \"female\",\n" +
-                "    \"salary\": 99,\n" +
-                "    \"companyId\": " + 1 + "\n" +
+                "    \"salary\": 99\n" +
                 "}";
 
         // when
@@ -177,16 +166,14 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.name").value("Patrick"))
                 .andExpect(jsonPath("$.age").value("22"))
                 .andExpect(jsonPath("$.gender").value("female"))
-                .andExpect(jsonPath("$.salary").value("99"))
-                .andExpect(jsonPath("$.companyId").value("1"));
+                .andExpect(jsonPath("$.salary").value("99"));
     }
 
     @Test
     public void should_delete_employee_when_call_delete_api_given_employee_id() throws Exception {
         // given
         List<Employee> employees = employeesDataFactory();
-        employeeRepository.saveAll(employees);
-        Integer employeeIdToBeDeleted = employees.get(0).getId();
+        Integer employeeIdToBeDeleted = employeeRepository.saveAll(employees).get(0).getId();
 
         // when
         // then
@@ -215,8 +202,8 @@ public class EmployeeIntegrationTest {
 
     private List<Employee> employeesDataFactory() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Francis", 24, "male", 99 ));
-        employees.add(new Employee(2, "Eric", 22, "male", 99 ));
+        employees.add(new Employee(1, "Francis", 24, "male", 99));
+        employees.add(new Employee(2, "Eric", 22, "male", 99));
         employees.add(new Employee(3, "Spongebob", 24, "male", 99));
         employees.add(new Employee(4, "Patrick", 22, "male", 99));
         employees.add(new Employee(5, "Gary", 24, "male", 99));
