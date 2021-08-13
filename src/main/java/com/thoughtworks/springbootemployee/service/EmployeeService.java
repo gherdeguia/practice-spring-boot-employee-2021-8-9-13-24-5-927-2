@@ -61,7 +61,7 @@ public class EmployeeService {
                     employeeToBeUpdated.setId(id);
                     return employeeRepository.save(employeeToBeUpdated);
                 })
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
+                .orElseThrow(() -> new EmployeeNotFoundException(id.toString()));
     }
 
     public void delete(Integer id) {
