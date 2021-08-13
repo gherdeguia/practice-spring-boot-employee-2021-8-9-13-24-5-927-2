@@ -50,9 +50,16 @@ public class CompanyService {
     }
 
     public Company update(int companyId, Company companyToBeUpdated) {
-        return retiringCompanyRepository.updateCompany(companyId, companyToBeUpdated);
+//        return retiringCompanyRepository.updateCompany(companyId, companyToBeUpdated);
+        return companyRepository.save(updateCompanyInfo(getById(companyId),companyToBeUpdated));
     }
 
+    private Company updateCompanyInfo(Company company, Company companyToBeUpdated) {
+        if (companyToBeUpdated.getCompanyName() != null) {
+            company.setCompanyName(companyToBeUpdated.getCompanyName());
+        }
+        return company;
+    }
     public boolean delete(int companyId) {
         return retiringCompanyRepository.deleteCompany(companyId);
     }
