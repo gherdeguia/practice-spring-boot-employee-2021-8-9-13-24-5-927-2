@@ -34,20 +34,10 @@ class EmployeesController {
         return employeeMapper.toResponse(employeeService.findByEmployeeIDService(id));
     }
 
-//    @RequestMapping(params = "gender")
-//    public List<Employee> getEmployeesByGender(@RequestParam String gender) {
-//        return employeeService.getEmployeeByGenderService(gender);
-//    }
-
     @RequestMapping(params = "gender")
     public List<EmployeeResponse> getEmployeesByGender_alternate(@RequestParam String gender) {
         return employeeMapper.toResponse(employeeService.getEmployeeByGenderService(gender));
     }
-
-//    @GetMapping(params = {"pageIndex", "pageSize"})
-//    public List<Employee> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
-//        return employeeService.getEmployeesByPageService(pageIndex, pageSize);
-//    }
 
     @GetMapping(params = {"page", "pageSize"})
     public List<EmployeeResponse> getEmployeesByPagination_alternate(@RequestParam Integer page, @RequestParam Integer pageSize) {
@@ -67,7 +57,7 @@ class EmployeesController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Integer id) {
-        employeeService.deleteEmployeeService(id);
+    public EmployeeResponse deleteEmployee(@PathVariable Integer id) {
+        return employeeMapper.toResponse(employeeService.deleteEmployeeService(id));
     }
 }

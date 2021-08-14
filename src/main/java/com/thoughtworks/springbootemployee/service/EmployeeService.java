@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.CompanyDoesNotExistException;
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -45,7 +46,7 @@ public class EmployeeService {
             companyRepository
                     .findById(companyId)
                     .orElseThrow(
-                            () -> new EmployeeNotFoundException("Company ID not found.")
+                            () -> new CompanyDoesNotExistException("Company ID not found.")
                     );
         }
         return employeeRepository.save(employee);
@@ -64,10 +65,23 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException(id.toString()));
     }
 
-    public void deleteEmployeeService(Integer id) {
-        employeeRepository.delete(
-                employeeRepository.findById(id).orElseThrow(null)
+    public Employee deleteEmployeeService(Integer id) {
+        Employee deletedEmployee = new Employee(
+                findByEmployeeIDService(id).getId(),
+                findByEmployeeIDService(id).getName(),
+                0,
+                findByEmployeeIDService(id).getGender(),
+                0,
+                findByEmployeeIDService(id).getCompanyId()
         );
+        employeeRepository.delete(
+                employeeRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () -> new EmployeeNotFoundException("Employee ID not found.")
+                        )
+                );
+        return deletedEmployee;
     }
 
 }
