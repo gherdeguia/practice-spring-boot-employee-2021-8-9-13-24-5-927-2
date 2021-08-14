@@ -14,8 +14,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/employees")
-public
-class EmployeesController {
+public class EmployeesController {
 
     @Autowired
     private  EmployeeService employeeService;
@@ -58,6 +57,6 @@ class EmployeesController {
 
     @DeleteMapping("/{id}")
     public EmployeeResponse deleteEmployee(@PathVariable Integer id) {
-        return employeeMapper.toResponse(employeeService.deleteEmployeeService(id));
+        return employeeMapper.toResponse(employeeService.deleteEmployeeByIdService(id));
     }
 }

@@ -3,10 +3,12 @@ package com.thoughtworks.springbootemployee.mapper;
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -24,4 +26,14 @@ public class CompanyMapper {
         return companyResponse;
     }
 
+    public List<CompanyResponse> toResponse(List<Company> companies) {
+        List<CompanyResponse> companyResponses = new ArrayList<>();
+
+        companies.forEach(company -> {
+            CompanyResponse companyResponse = new CompanyResponse();
+            BeanUtils.copyProperties(company, companyResponse);
+            companyResponses.add(companyResponse);
+        });
+        return companyResponses;
+    }
 }

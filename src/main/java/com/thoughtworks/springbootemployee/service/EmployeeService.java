@@ -45,9 +45,7 @@ public class EmployeeService {
         if(nonNull(companyId)){
             companyRepository
                     .findById(companyId)
-                    .orElseThrow(
-                            () -> new CompanyDoesNotExistException("Company ID not found.")
-                    );
+                    .orElseThrow(() -> new CompanyDoesNotExistException("Company ID not found."));
         }
         return employeeRepository.save(employee);
     }
@@ -65,7 +63,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException(id.toString()));
     }
 
-    public Employee deleteEmployeeService(Integer id) {
+    public Employee deleteEmployeeByIdService(Integer id) {
         Employee deletedEmployee = new Employee(
                 findByEmployeeIDService(id).getId(),
                 findByEmployeeIDService(id).getName(),
@@ -77,9 +75,7 @@ public class EmployeeService {
         employeeRepository.delete(
                 employeeRepository
                         .findById(id)
-                        .orElseThrow(
-                                () -> new EmployeeNotFoundException("Employee ID not found.")
-                        )
+                        .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."))
                 );
         return deletedEmployee;
     }

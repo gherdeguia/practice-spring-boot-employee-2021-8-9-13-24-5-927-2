@@ -28,11 +28,11 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> getAllCompanies() {
+    public List<Company> getAllCompaniesService() {
         return companyRepository.findAll();
     }
 
-    public Company getById(Integer companyId) {
+    public Company findCompanyByIdService(Integer companyId) {
         return companyRepository
                 .findById(companyId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."));
@@ -42,7 +42,7 @@ public class CompanyService {
         return employeeRepository.findEmployeesByCompanyId(companyId);
     }
 
-    public List<Company> getByPageIndexAndPageSize(Integer pageIndex, int pageSize) {
+    public List<Company> getCompaniesByPageandPageSize(Integer pageIndex, int pageSize) {
         return companyRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).toList();
 
     }
@@ -67,9 +67,16 @@ public class CompanyService {
         }
         return company;
     }
-    public void delete(int companyId) {
-        companyRepository
-                .delete(companyRepository.findById(companyId)
-                        .orElseThrow(null));
+    public Company deleteCompanyByIdService(int companyId) {
+        Company deletedCompany = new Company(
+                findCompanyByIdService(companyId).getId(),
+                findCompanyByIdService(companyId).getCompanyName()
+        );
+        companyRepository.delete(
+                companyRepository
+                        .findById(companyId)
+                        .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."))
+        );
+        return deletedCompany;
     }
 }

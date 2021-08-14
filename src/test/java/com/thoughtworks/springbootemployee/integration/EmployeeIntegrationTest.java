@@ -51,29 +51,39 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].name").value("Francis"))
                 .andExpect(jsonPath("$[0].age").value(24))
                 .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value(99));
+                .andExpect(jsonPath("$[0].salary").value(99))
+
+                .andExpect(jsonPath("$[1].id").isNumber())
+                .andExpect(jsonPath("$[1].name").value("Spongebob"))
+                .andExpect(jsonPath("$[1].age").value(14))
+                .andExpect(jsonPath("$[1].gender").value("male"))
+                .andExpect(jsonPath("$[1].salary").value(99));
     }
 
     @Test
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
-        List<Employee> employees = employeesDataFactory();
-        Integer employeeId = employeeRepository.saveAll(employees).get(0).getId();
-
+        Integer employeeId = 40;
         //when
         //then
         mockMvc.perform(get("/employees/{employeeId}", employeeId))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Winry Rockbell"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("female"))
+                .andExpect(jsonPath("$.salary").value(1000))
+            ;
     }
 
     @Test
     public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
         //given
+        String gender = "female";
         //when
         //then
-        mockMvc.perform(get("/employees?gender=female"))
+        mockMvc.perform(get("/employees?gender={gender}",gender))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(3));
+                .andExpect(jsonPath("$.length()").value(4));
     }
 
     @Test
@@ -82,13 +92,13 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees")
-                .param("pageIndex", String.valueOf(3))
+                .param("page", String.valueOf(3))
                 .param("pageSize", String.valueOf(3))
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Eric"))
-                .andExpect(jsonPath("$[1].name").value("Spongebob"))
-                .andExpect(jsonPath("$[2].name").value("Patrick"))
+                .andExpect(jsonPath("$[0].name").value("Spongebob"))
+                .andExpect(jsonPath("$[1].name").value("Winry Rockbell"))
+                .andExpect(jsonPath("$[2].name").value("Gary"))
         ;
     }
 
@@ -108,7 +118,6 @@ public class EmployeeIntegrationTest {
                 .contentType(APPLICATION_JSON)
                 .content(employeeJson))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Extra Characters"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
@@ -134,10 +143,12 @@ public class EmployeeIntegrationTest {
                 .content(employeeJson))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Spongebob"))
+                .andExpect(jsonPath("$.name").value("Alfonse Elric"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
-                .andExpect(jsonPath("$.salary").value("999"));
+                .andExpect(jsonPath("$.salary").value("999"))
+                .andExpect(jsonPath("$.salary").value(companyId))
+        ;
     }
 
     @Test
