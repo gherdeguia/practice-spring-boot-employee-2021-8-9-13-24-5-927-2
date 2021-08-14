@@ -23,12 +23,11 @@ public class EmployeeMapper {
         return employeeResponse;
     }
 
-
     public List<EmployeeResponse> toResponse(List<Employee> employees) {
         List<EmployeeResponse> employeeResponses = new ArrayList<>();
-        EmployeeResponse employeeResponse = new EmployeeResponse();
 
         employees.forEach(employee -> {
+            EmployeeResponse employeeResponse = new EmployeeResponse();
             BeanUtils.copyProperties(employee, employeeResponse);
             employeeResponses.add(employeeResponse);
         });
