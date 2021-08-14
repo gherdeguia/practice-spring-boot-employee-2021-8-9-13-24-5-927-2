@@ -44,6 +44,7 @@ public class CompaniesController {
     @GetMapping(params = {"pageIndex", "pageSize"})
     public List<Company> getCompaniesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
         return companyService.getByPageIndexAndPageSize(pageIndex, pageSize);
+//        return companyMapper.toResponse(companyService.getByPageIndexAndPageSize(pageIndex, pageSize));
     }
 
     @PostMapping
@@ -55,7 +56,7 @@ public class CompaniesController {
 
     @PutMapping(path = "/{id}")
     public Company updateCompany(@PathVariable Integer id, @RequestBody Company companyToBeUpdated) {
-        return companyService.update(id, companyToBeUpdated);
+        return companyService.updateCompanyService(id, companyToBeUpdated);
     }
 
     @DeleteMapping("/{companyId}")

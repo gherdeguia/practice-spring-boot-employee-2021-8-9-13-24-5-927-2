@@ -7,6 +7,8 @@ import com.thoughtworks.springbootemployee.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CompanyMapper {
     public Company toEntity(CompanyRequest companyRequest){
@@ -21,4 +23,5 @@ public class CompanyMapper {
         companyResponse.setEmployeeNumber(company.getEmployees().size());
         return companyResponse;
     }
+
 }

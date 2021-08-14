@@ -45,8 +45,9 @@ class EmployeesController {
     }
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<Employee> getEmployeesByPagination_alternate(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        return employeeService.getEmployeesByPageService(page, pageSize);
+    public List<EmployeeResponse> getEmployeesByPagination_alternate(@RequestParam Integer page, @RequestParam Integer pageSize) {
+//        return null;
+        return employeeMapper.toResponse(employeeService.getEmployeesByPageService(page, pageSize));
     }
 
     @PostMapping
@@ -54,6 +55,7 @@ class EmployeesController {
     public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
         return employeeService.addNewEmployeeService(employeeMapper.toEntity(employeeRequest));
     }
+
 
     @PutMapping(path = "/{id}")
     public Employee updateEmployee(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {

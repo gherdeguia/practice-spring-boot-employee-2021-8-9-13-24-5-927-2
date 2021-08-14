@@ -11,8 +11,6 @@ public class Employee {
     public Integer age;
     public String gender;
     public Integer salary;
-
-    @JoinColumn(insertable = false, updatable = false)
     public Integer companyId;
 
     public Employee() {

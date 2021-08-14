@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 public class Company {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
@@ -33,6 +34,10 @@ public class Company {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCompanyName() {

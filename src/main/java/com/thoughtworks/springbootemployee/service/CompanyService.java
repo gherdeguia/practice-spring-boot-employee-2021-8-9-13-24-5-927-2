@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.CompanyDoesNotExistException;
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
@@ -50,8 +51,14 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company update(int companyId, Company companyToBeUpdated) {
-        return companyRepository.save(updateCompanyInfo(getById(companyId),companyToBeUpdated));
+    public Company updateCompanyService(int companyId, Company companyToBeUpdated) {
+//        return companyRepository.save(updateCompanyInfo(getById(companyId),companyToBeUpdated));
+        return companyRepository.findById(companyId)
+                .map(company -> {
+                    companyToBeUpdated.setId(companyId);
+                    return companyRepository.save(companyToBeUpdated);
+                })
+                .orElseThrow(() -> new CompanyDoesNotExistException(String.valueOf(companyId)));
     }
 
     private Company updateCompanyInfo(Company company, Company companyToBeUpdated) {
