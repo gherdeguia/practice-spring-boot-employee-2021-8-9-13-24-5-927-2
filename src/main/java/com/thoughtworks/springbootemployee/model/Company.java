@@ -1,17 +1,18 @@
 package com.thoughtworks.springbootemployee.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String companyName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
-    List<Employee> employees;
+    List<Employee> employees = new ArrayList<>();
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
