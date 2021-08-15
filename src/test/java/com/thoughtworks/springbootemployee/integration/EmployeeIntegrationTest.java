@@ -115,6 +115,8 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_create_employee_when_call_create_employee_api_without_company_id() throws Exception {
         // given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
         String employeeJson = "{\n" +
                 "    \"name\": \"Extra Characters\",\n" +
                 "    \"age\": 24,\n" +
@@ -131,7 +133,8 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.name").value("Extra Characters"))
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
-                .andExpect(jsonPath("$.salary").value("999"));
+                .andExpect(jsonPath("$.salary").value("999"))
+        ;
     }
 
     @Test
