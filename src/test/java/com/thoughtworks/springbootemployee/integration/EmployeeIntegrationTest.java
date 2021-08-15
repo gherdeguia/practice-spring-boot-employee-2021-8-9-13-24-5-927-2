@@ -97,16 +97,18 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_return_employees_when_call_get_employees_api_by_pagination_given_page_index_and_page_size() throws Exception {
         //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees")
-                .param("page", String.valueOf(3))
+                .param("page", String.valueOf(2))
                 .param("pageSize", String.valueOf(3))
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Spongebob"))
-                .andExpect(jsonPath("$[1].name").value("Winry Rockbell"))
-                .andExpect(jsonPath("$[2].name").value("Gary"))
+                .andExpect(jsonPath("$[0].name").value("Alfonse"))
+                .andExpect(jsonPath("$[1].name").value("Edward"))
+                .andExpect(jsonPath("$[2].name").value("Riza Hawkeye"))
         ;
     }
 
