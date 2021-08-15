@@ -169,11 +169,14 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_update_employee_when_call_update_employee_api_given_employee_id_and_updated_employee_request() throws Exception {
         // given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
+
         Employee employee = employeesDataFactory().get(3);
         Integer returnedEmployeeId = employeeRepository.save(employee).getId();
 
         String employeeJson = "{\n" +
-                "    \"name\": \"Patrick Starro\",\n" +
+                "    \"name\": \"Patrick Starra\",\n" +
                 "    \"age\": 22,\n" +
                 "    \"gender\": \"female\",\n" +
                 "    \"salary\": 99\n" +
@@ -187,7 +190,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.id").value(returnedEmployeeId))
-                .andExpect(jsonPath("$.name").value("Patrick Starro"))
+                .andExpect(jsonPath("$.name").value("Patrick Starra"))
                 .andExpect(jsonPath("$.age").value("22"))
                 .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.salary").value("99"));
