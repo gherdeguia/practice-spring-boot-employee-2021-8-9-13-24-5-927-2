@@ -34,14 +34,16 @@ public class CompanyIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//        employeeRepository.deleteAll();
-//    }
+    @AfterEach
+    void tearDown() {
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void should_return_all_companies_when_call_get_companies_api() throws Exception {
         //given
+        List<Company> companies = companiesDataFactory();
+        companyRepository.saveAll(companies);
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies"))
@@ -66,15 +68,34 @@ public class CompanyIntegrationTest {
         ;
     }
 
-    private List<Employee> employeesDataFactory(int companyID) {
+    private List<Company> companiesDataFactory() {
+        List<Company> companies = new ArrayList<>();
+        List<Employee> employees1 = new ArrayList<>();
+        employees1.add(employeesDataFactory().get(0));
+        employees1.add(employeesDataFactory().get(1));
+        employees1.add(employeesDataFactory().get(2));
+
+
+        List<Employee> employees2 = new ArrayList<>();
+        employees2.add(employeesDataFactory().get(3));
+        employees2.add(employeesDataFactory().get(4));
+        employees2.add(employeesDataFactory().get(5));
+
+        companies.add(new Company(1, "Amestris", employees1));
+        companies.add(new Company(2, "Xerxes", employees2));
+
+        return companies;
+    }
+
+    private List<Employee> employeesDataFactory() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("Francis", 24, "male", 99, companyID));
-        employees.add(new Employee("Eric", 22, "male", 99, companyID));
-        employees.add(new Employee("Spongebob", 24, "male", 99, companyID));
-        employees.add(new Employee("Patrick", 22, "male", 99, companyID));
-        employees.add(new Employee("Gary", 24, "male", 99, companyID));
-        employees.add(new Employee("Squidward", 22, "male", 99, companyID));
-        employees.add(new Employee( "Sandy", 22, "female", 99, companyID));
+        employees.add(new Employee(1, "GG", 24, "male", 99));
+        employees.add(new Employee(2, "Rio", 22, "female", 99));
+        employees.add(new Employee(3, "Winry", 24, "female", 99));
+        employees.add(new Employee(4, "Alfonse", 22, "male", 99));
+        employees.add(new Employee(5, "Edward", 24, "male", 99));
+        employees.add(new Employee(6, "Riza Hawkeye", 22, "female", 99));
+        employees.add(new Employee(7, "Roy Mustang", 22, "male", 99));
 
         return employees;
     }

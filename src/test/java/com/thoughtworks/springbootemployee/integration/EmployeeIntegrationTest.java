@@ -4,6 +4,7 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -31,6 +33,9 @@ public class EmployeeIntegrationTest {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    EmployeeService employeeService;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -67,13 +72,14 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
-        List<Employee> employees = employeesDataFactory();
-        employeeRepository.saveAll(employees);
-        Integer employeeId = employeesDataFactory().get(1).getId();
+        Employee employee1 = employeesDataFactory().get(0);
+        Employee employee2 = employeesDataFactory().get(1);
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
         //when
         //then
-        mockMvc.perform(get("/employees/{employeeId}", employeeId))
-                .andExpect(status().isOk())
+        int searchEmployee = 2;
+        mockMvc.perform(get("/employees/{employeeId}", searchEmployee))
                 .andExpect(jsonPath("$.name").value("Rio"))
                 .andExpect(jsonPath("$.age").value(22))
                 .andExpect(jsonPath("$.gender").value("female"))
