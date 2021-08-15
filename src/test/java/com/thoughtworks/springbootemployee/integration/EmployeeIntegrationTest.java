@@ -82,8 +82,10 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
-    public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_male() throws Exception {
+    public void should_return_male_employees_when_call_get_employee_api_given_employee_gender_female() throws Exception {
         //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
         String gender = "female";
         //when
         //then
