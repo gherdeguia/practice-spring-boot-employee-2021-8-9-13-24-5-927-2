@@ -3,6 +3,7 @@
 //import com.thoughtworks.springbootemployee.model.Employee;
 //import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 //import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
+//import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
 //import org.mockito.InjectMocks;
@@ -29,6 +30,11 @@
 //    @Mock
 //    private EmployeeRepository employeeRepository;
 //
+//    @AfterEach
+//    public void deleteAll(){
+//        employeeRepository.deleteAll();
+//    }
+//
 //    @Test
 //    public void should_return_all_employees_when_get_all_employees_given_all_employees() {
 //        //given
@@ -38,7 +44,7 @@
 //        given(employeeRepository.findAll()).willReturn(employees);
 //
 //        //when
-//        List<Employee> actualEmployees = employeeService.getAllEmployees();
+//        List<Employee> actualEmployees = employeeService.getAllEmployeesService();
 //
 //        //then
 //        assertEquals(employees, actualEmployees);

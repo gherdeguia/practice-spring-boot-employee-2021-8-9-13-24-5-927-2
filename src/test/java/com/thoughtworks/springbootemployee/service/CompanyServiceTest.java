@@ -3,6 +3,8 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.apache.catalina.util.ErrorPageSupport;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,8 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,11 +26,13 @@ class CompanyServiceTest {
     @Mock
     private CompanyRepository companyRepository;
 
+    @Mock
+    private EmployeeRepository employeeRepository;
+
     @Test
     public void should_return_all_companies_when_get_all_companies() {
         //given
         List<Company> companies = companiesDataFactory();
-
         when(companyRepository.findAll()).thenReturn(companies);
 
         //when
@@ -42,34 +46,38 @@ class CompanyServiceTest {
 //    @Test
 //    public void should_return_company_when_get_company_given_company_id_1() {
 //        //given
-//        Company company = companiesDataFactory().get(0);
-//        Integer companyId = company.getCompanyId();
+//        List<Company> companies = new ArrayList<>();
+//        companies.add(companiesDataFactory().get(0));
+//        companies.add(companiesDataFactory().get(1));
 //
-//        when(companyRepository.findById(companyId)).thenReturn(company);
+//        int companyId = companies.get(0).getId();
+//        when(companyRepository.findAll()).thenReturn(companies);
 //
 //        //when
-//        Company actualCompany = companyService.getById(companyId);
+//        Company actualCompany = companyService.findCompanyByIdService(anyInt());
 //
 //        //then
-//        assertEquals(company, actualCompany);
+////        assertEquals(company, );
+//        assertNotNull(actualCompany);
 //    }
-//
+
 //    @Test
 //    public void should_return_company_employees_when_get_company_employees_given_company_id_1() {
 //        //given
 //        Company company = companiesDataFactory().get(0);
 //        List<Employee> employees = company.getEmployees();
-//        Integer companyId = company.getCompanyId();
+//        Integer companyId = company.getId();
 //
-//        when(companyRepository.findEmployeesById(companyId)).thenReturn(employees);
+//
+//        when(employeeRepository.findAll()).thenReturn(employees);
 //
 //        //when
-//        List<Employee> actualEmployees = companyService.getCompanyEmployeesById(companyId);
+//        List<Employee> actualEmployees = companyService.getCompanyEmployeesById(anyInt());
 //
 //        //then
-//        assertEquals(employees, actualEmployees);
+//        assertIterableEquals(employees, actualEmployees);
 //    }
-//
+
 //    @Test
 //    public void should_return_first_5_companies_when_get_companies_by_pagination_given_page_index_1_and_page_size_5() {
 //        //given

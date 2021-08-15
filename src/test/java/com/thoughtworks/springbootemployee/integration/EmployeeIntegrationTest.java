@@ -35,29 +35,33 @@ public class EmployeeIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//        employeeRepository.deleteAll();
-//    }
+    @AfterEach
+    void tearDown() {
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void should_return_all_employees_when_call_get_employees_api() throws Exception {
         //given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
+
                 .andExpect(jsonPath("$[0].id").isNumber())
-                .andExpect(jsonPath("$[0].name").value("Francis"))
+                .andExpect(jsonPath("$[0].name").value("GG"))
                 .andExpect(jsonPath("$[0].age").value(24))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value(99))
 
                 .andExpect(jsonPath("$[1].id").isNumber())
-                .andExpect(jsonPath("$[1].name").value("Spongebob"))
-                .andExpect(jsonPath("$[1].age").value(14))
-                .andExpect(jsonPath("$[1].gender").value("male"))
-                .andExpect(jsonPath("$[1].salary").value(99));
+                .andExpect(jsonPath("$[1].name").value("Rio"))
+                .andExpect(jsonPath("$[1].age").value(22))
+                .andExpect(jsonPath("$[1].gender").value("female"))
+                .andExpect(jsonPath("$[1].salary").value(99))
+        ;
     }
 
     @Test
@@ -83,7 +87,7 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(get("/employees?gender={gender}",gender))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4));
+                .andExpect(jsonPath("$.length()").value(10));
     }
 
     @Test
@@ -147,7 +151,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value("24"))
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andExpect(jsonPath("$.salary").value("999"))
-                .andExpect(jsonPath("$.salary").value(companyId))
+                .andExpect(jsonPath("$.companyId").value(companyId))
         ;
     }
 
@@ -172,7 +176,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.id").value(returnedEmployeeId))
-                .andExpect(jsonPath("$.name").value("Patrick"))
+                .andExpect(jsonPath("$.name").value("Patrick Starro"))
                 .andExpect(jsonPath("$.age").value("22"))
                 .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.salary").value("99"));
@@ -203,21 +207,21 @@ public class EmployeeIntegrationTest {
         employees2.add(employeesDataFactory().get(4));
         employees2.add(employeesDataFactory().get(5));
 
-        companies.add(new Company(1, "Alibaba", employees1));
-        companies.add(new Company(2, "Shoppee", employees2));
+        companies.add(new Company(1, "Amestris", employees1));
+        companies.add(new Company(2, "Xerxes", employees2));
 
         return companies;
     }
 
     private List<Employee> employeesDataFactory() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Francis", 24, "male", 99));
-        employees.add(new Employee(2, "Eric", 22, "male", 99));
-        employees.add(new Employee(3, "Spongebob", 24, "male", 99));
-        employees.add(new Employee(4, "Patrick", 22, "male", 99));
-        employees.add(new Employee(5, "Gary", 24, "male", 99));
-        employees.add(new Employee(6, "Squidward", 22, "male", 99));
-        employees.add(new Employee(6, "Sandy", 22, "female", 99));
+        employees.add(new Employee(1, "GG", 24, "male", 99));
+        employees.add(new Employee(2, "Rio", 22, "female", 99));
+        employees.add(new Employee(3, "Winry", 24, "female", 99));
+        employees.add(new Employee(4, "Alfonse", 22, "male", 99));
+        employees.add(new Employee(5, "Edward", 24, "male", 99));
+        employees.add(new Employee(6, "Riza Hawkeye", 22, "female", 99));
+        employees.add(new Employee(7, "Roy Mustang", 22, "male", 99));
 
         return employees;
     }

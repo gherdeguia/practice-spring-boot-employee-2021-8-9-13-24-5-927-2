@@ -35,7 +35,7 @@ public class CompanyService {
     public Company findCompanyByIdService(Integer companyId) {
         return companyRepository
                 .findById(companyId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."));
+                .orElseThrow(() -> new CompanyDoesNotExistException("Company ID not found."));
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
