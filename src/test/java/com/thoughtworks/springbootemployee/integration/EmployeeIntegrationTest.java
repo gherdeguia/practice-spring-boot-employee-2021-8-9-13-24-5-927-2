@@ -67,15 +67,17 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_return_employee_when_call_get_employee_api_given_employee_id_1() throws Exception {
         //given
-        Integer employeeId = 40;
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
+        Integer employeeId = employeesDataFactory().get(1).getId();
         //when
         //then
         mockMvc.perform(get("/employees/{employeeId}", employeeId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Winry Rockbell"))
-                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.name").value("Rio"))
+                .andExpect(jsonPath("$.age").value(22))
                 .andExpect(jsonPath("$.gender").value("female"))
-                .andExpect(jsonPath("$.salary").value(1000))
+                .andExpect(jsonPath("$.salary").value(99))
             ;
     }
 
@@ -87,7 +89,7 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(get("/employees?gender={gender}",gender))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(10));
+                .andExpect(jsonPath("$.length()").value(3));
     }
 
     @Test
