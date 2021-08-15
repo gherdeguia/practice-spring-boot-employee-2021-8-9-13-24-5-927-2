@@ -140,6 +140,8 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_create_employee_when_call_create_employee_api_with_company_id() throws Exception {
         // given
+        List<Employee> employees = employeesDataFactory();
+        employeeRepository.saveAll(employees);
         Integer companyId = companyRepository.save(companiesDataFactory().get(0)).getId();
         String employeeJson = "{\n" +
                 "    \"name\": \"Alfonse Elric\",\n" +
