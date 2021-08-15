@@ -200,7 +200,7 @@ public class EmployeeIntegrationTest {
     public void should_delete_employee_when_call_delete_api_given_employee_id() throws Exception {
         // given
         List<Employee> employees = employeesDataFactory();
-        Integer employeeIdToBeDeleted = employeeRepository.saveAll(employees).get(0).getId();
+        Integer employeeIdToBeDeleted = employeeRepository.saveAll(employees).get(3).getId();
 
         // when
         // then
