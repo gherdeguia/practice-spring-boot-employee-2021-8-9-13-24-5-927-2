@@ -74,11 +74,10 @@ public class EmployeeIntegrationTest {
         //given
         Employee employee1 = employeesDataFactory().get(0);
         Employee employee2 = employeesDataFactory().get(1);
+        int searchEmployee = employeeRepository.save(employee2).getId();
         employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
         //when
         //then
-        int searchEmployee = 2;
         mockMvc.perform(get("/employees/{employeeId}", searchEmployee))
                 .andExpect(jsonPath("$.name").value("Rio"))
                 .andExpect(jsonPath("$.age").value(22))
