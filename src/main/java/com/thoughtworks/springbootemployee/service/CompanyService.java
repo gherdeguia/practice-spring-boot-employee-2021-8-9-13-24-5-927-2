@@ -6,7 +6,6 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import com.thoughtworks.springbootemployee.repository.RetiringCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,6 @@ import java.util.List;
 
 @Service
 public class CompanyService {
-    @Autowired
-    private RetiringCompanyRepository retiringCompanyRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
