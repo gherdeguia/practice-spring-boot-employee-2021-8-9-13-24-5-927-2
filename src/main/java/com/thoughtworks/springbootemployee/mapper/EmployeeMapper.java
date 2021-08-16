@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EmployeeMapper {
@@ -23,14 +24,19 @@ public class EmployeeMapper {
         return employeeResponse;
     }
 
-    public List<EmployeeResponse> toResponse(List<Employee> employees) {
-        List<EmployeeResponse> employeeResponses = new ArrayList<>();
 
-        employees.forEach(employee -> {
-            EmployeeResponse employeeResponse = new EmployeeResponse();
-            BeanUtils.copyProperties(employee, employeeResponse);
-            employeeResponses.add(employeeResponse);
-        });
-        return employeeResponses;
+    public List<EmployeeResponse> toResponse(List<Employee> employees) {
+//        List<EmployeeResponse> employeeResponses = new ArrayList<>();
+        return employees.stream().map(this::toResponse).collect(Collectors.toList());
+
+//
+//
+//
+//        employees.forEach(employee -> {
+//            EmployeeResponse employeeResponse = new EmployeeResponse();
+//            BeanUtils.copyProperties(employee, employeeResponse);
+//            employeeResponses.add(employeeResponse);
+//        });
+//        return employeeResponses;
     }
 }
