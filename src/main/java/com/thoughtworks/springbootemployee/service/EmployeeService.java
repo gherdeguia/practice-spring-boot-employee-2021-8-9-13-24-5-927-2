@@ -72,11 +72,14 @@ public class EmployeeService {
                 0,
                 findByEmployeeIDService(id).getCompanyId()
         );
-        employeeRepository.delete(
-                employeeRepository
-                        .findById(id)
-                        .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."))
-                );
+
+        //todo deleteByID
+        employeeRepository.deleteById(id);
+//        employeeRepository.delete(
+//                employeeRepository
+//                        .findById(id)
+//                        .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."))
+//                );
         return deletedEmployee;
     }
 
